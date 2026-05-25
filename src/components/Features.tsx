@@ -170,6 +170,84 @@ export const Features: React.FC = () => {
             <h3 className="feature-card-title">{t('feat6Title')}</h3>
             <p className="feature-card-desc">{t('feat6Desc')}</p>
           </div>
+          
+          {/* Card 7: MLPS 2.0 Compliance */}
+          <div className="glass-card feature-card">
+            <div className="feature-illustration-wrapper">
+              <div className="ill-mlps">
+                <div className="mlps-shield-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(0, 113, 227, 0.1)" />
+                  </svg>
+                  <span className="mlps-text">等保三级</span>
+                </div>
+                <div className="mlps-checklist">
+                  <div className="mlps-check-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div className="mlps-check-item" style={{ animationDelay: '0.5s' }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div className="mlps-check-item" style={{ animationDelay: '1s' }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 className="feature-card-title">{t('feat7Title')}</h3>
+            <p className="feature-card-desc">{t('feat7Desc')}</p>
+          </div>
+
+          {/* Card 8: Custom AI Prompts */}
+          <div className="glass-card feature-card">
+            <div className="feature-illustration-wrapper">
+              <div className="ill-custom-prompts">
+                <div className="prompt-editor-header">
+                  <span className="prompt-dot"></span>
+                  <span className="prompt-dot"></span>
+                  <span className="prompt-dot"></span>
+                </div>
+                <div className="prompt-editor-body">
+                  <div className="prompt-line cursor-blink">System Prompt:</div>
+                  <div className="prompt-line select-text">Analyze alert `{"{"}alert_name{"}"}`...</div>
+                  <div className="prompt-line select-text">Recommend Playbook...</div>
+                </div>
+                <div className="prompt-ai-sparkle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--gradient-ai-end)" strokeWidth="2">
+                    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <h3 className="feature-card-title">{t('feat8Title')}</h3>
+            <p className="feature-card-desc">{t('feat8Desc')}</p>
+          </div>
+
+          {/* Card 9: Multi-channel Notifications */}
+          <div className="glass-card feature-card">
+            <div className="feature-illustration-wrapper">
+              <div className="ill-notifications">
+                <div className="bell-wrapper">
+                  <svg className="bell-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                  </svg>
+                </div>
+                <div className="alert-bubbles">
+                  <div className="bubble bubble-feishu">飞书</div>
+                  <div className="bubble bubble-dingtalk">钉钉</div>
+                </div>
+              </div>
+            </div>
+            <h3 className="feature-card-title">{t('feat9Title')}</h3>
+            <p className="feature-card-desc">{t('feat9Desc')}</p>
+          </div>
 
         </div>
       </div>
@@ -652,6 +730,189 @@ export const Features: React.FC = () => {
           width: 28px;
           height: 28px;
           filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3));
+        }
+
+        /* Card 7: MLPS 2.0 CSS */
+        .ill-mlps {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          width: 85%;
+          justify-content: space-around;
+        }
+        .mlps-shield-badge {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+        }
+        .mlps-shield-badge svg {
+          width: 48px;
+          height: 48px;
+          filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+        .mlps-text {
+          font-size: 0.65rem;
+          font-weight: 800;
+          color: var(--accent-color);
+          background-color: rgba(0, 113, 227, 0.08);
+          border: 1px solid rgba(0, 113, 227, 0.2);
+          padding: 2px 6px;
+          border-radius: 4px;
+        }
+        .mlps-checklist {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .mlps-check-item {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: rgba(16, 185, 129, 0.1);
+          border: 1px solid rgba(16, 185, 129, 0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: checkPulse 3s infinite ease-in-out;
+        }
+        .mlps-check-item svg {
+          width: 12px;
+          height: 12px;
+        }
+        @keyframes checkPulse {
+          0%, 100% { transform: scale(1); opacity: 0.6; }
+          50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 8px rgba(16, 185, 129, 0.3); }
+        }
+
+        /* Card 8: Custom AI Prompts CSS */
+        .ill-custom-prompts {
+          width: 80%;
+          height: 110px;
+          border: 1px solid var(--border-color);
+          background-color: var(--bg-secondary);
+          border-radius: 8px;
+          overflow: hidden;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+        }
+        .prompt-editor-header {
+          height: 20px;
+          background-color: var(--bg-primary);
+          border-bottom: 1px solid var(--border-color);
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          padding-left: 10px;
+        }
+        .prompt-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: var(--text-tertiary);
+        }
+        .prompt-editor-body {
+          padding: 10px;
+          font-family: var(--font-mono);
+          font-size: 0.6rem;
+          color: var(--text-secondary);
+          line-height: 1.4;
+        }
+        .prompt-line {
+          white-space: nowrap;
+        }
+        .cursor-blink::after {
+          content: '_';
+          animation: blinkCursor 1s infinite step-end;
+          color: var(--accent-color);
+        }
+        .select-text {
+          color: var(--text-primary);
+        }
+        @keyframes blinkCursor {
+          0%, 100% { opacity: 0; }
+          50% { opacity: 1; }
+        }
+        .prompt-ai-sparkle {
+          position: absolute;
+          right: 8px;
+          bottom: 8px;
+          width: 28px;
+          height: 28px;
+          background-color: var(--bg-primary);
+          border: 1px solid var(--border-color);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--shadow-premium);
+          animation: pulseSparkle 2s infinite ease-in-out;
+        }
+        .prompt-ai-sparkle svg {
+          width: 16px;
+          height: 16px;
+        }
+        @keyframes pulseSparkle {
+          0%, 100% { transform: scale(1) rotate(0deg); }
+          50% { transform: scale(1.1) rotate(45deg); box-shadow: 0 0 10px var(--gradient-ai-end); }
+        }
+
+        /* Card 9: Multi-channel Notifications CSS */
+        .ill-notifications {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          width: 85%;
+        }
+        .bell-wrapper {
+          width: 52px;
+          height: 52px;
+          border-radius: 50%;
+          background-color: rgba(0, 113, 227, 0.05);
+          border: 1.5px solid var(--accent-color);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: ringBell 2.5s infinite ease-in-out;
+        }
+        .bell-icon {
+          width: 28px;
+          height: 28px;
+          filter: drop-shadow(0 0 5px var(--accent-glow));
+        }
+        @keyframes ringBell {
+          0%, 100% { transform: rotate(0deg); }
+          10%, 30% { transform: rotate(15deg); }
+          20%, 40% { transform: rotate(-15deg); }
+          50% { transform: rotate(0deg); }
+        }
+        .alert-bubbles {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .bubble {
+          font-size: 0.65rem;
+          font-weight: 800;
+          color: #ffffff;
+          padding: 4px 12px;
+          border-radius: 6px;
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+          animation: floatBubble 4s infinite ease-in-out;
+        }
+        .bubble-feishu {
+          background-color: #3370ff;
+          animation-delay: 0s;
+        }
+        .bubble-dingtalk {
+          background-color: #007fff;
+          animation-delay: 1.5s;
+        }
+        @keyframes floatBubble {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
         }
 
         @media (max-width: 768px) {

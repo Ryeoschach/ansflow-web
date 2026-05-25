@@ -13,6 +13,10 @@ import approvalImg from '../imgs/审批.png';
 import aiDiagnosisImg from '../imgs/ai诊断与自动生成修复流水线.png';
 import auditImg from '../imgs/审计.png';
 import aiChatImg from '../imgs/ai聊天功能.png';
+import mlpsImg from '../imgs/等保2.0.png';
+import customPromptImg from '../imgs/自定义提示词.png';
+import notificationConfigImg from '../imgs/通知配置.png';
+
 
 // Context for zoom functionality
 const DocZoomContext = React.createContext<(src: string, alt: string) => void>(() => {});
@@ -561,6 +565,15 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   alt="模型与知识库配置"
                   caption="模型与知识库配置控制台：在此界面管理大语言模型接入、提示词模板，并配置自愈决策的 RAG 向量检索策略。"
                 />
+                <h3>自定义 AI 提示词模板</h3>
+                <p>
+                  系统提供了针对 RAG 问答、日志诊断、告警分析、DAG 生成、DAG 优化、流水线解释和 OCR 视觉解析等 7 处核心场景的 AI 提示词自定义能力。管理员可在配置中心动态编辑提示词模板，系统会自动进行变量占位符安全校验，同时支持出厂设置一键还原和强大的静态默认值容错回退机制，确保大模型运行时安全可靠。
+                </p>
+                <DocScreenshot
+                  src={customPromptImg}
+                  alt="自定义 AI 提示词"
+                  caption="自定义 AI 提示词控制台：支持编辑和管理系统内置场景的提示词模板，自动提示和校验必需的占位符变量，并提供一键恢复默认功能。"
+                />
               </section>
 
               {/* Module: ai_chat */}
@@ -719,6 +732,15 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   alt="配置与数据库热备中心"
                   caption="配置与数据库热备中心：支持系统核心配置、大模型参数的一键备份导出与快速还原，确保故障后快速恢复。"
                 />
+                <h3>多渠道通知配置与事件白名单</h3>
+                <p>
+                  系统集成了多渠道通知推送能力，支持飞书和钉钉的机器人 Webhook 通知接入。管理员可通过图形化界面全局启用/禁用通知，配置通知接收级别（如“仅失败时通知”），或配置触发通知的具体事件类型白名单（如流水线开始/结束、审批挂起/批复、任务运行完毕等）。此外，系统支持与系统环境变量的双向兼容，确保部署期间的平滑过渡。
+                </p>
+                <DocScreenshot
+                  src={notificationConfigImg}
+                  alt="通知渠道与事件配置"
+                  caption="通知配置控制台：灵活配置通知渠道开关、Webhook 机器人地址，并细粒度控制触发通知的事件类型列表。"
+                />
               </section>
 
               {/* Module: task_management */}
@@ -752,6 +774,15 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   <li><strong>合规性检测</strong>：设定安全基线规则（如禁止 Root 密码远程登录、高危开放端口检查、弱密码扫描及常用软件 CVE 漏洞探测）。</li>
                   <li><strong>基线漂移回正</strong>：若检测到服务器基线不合规，系统立时发出告警，并可调用预设的安全修复剧本，自动修复漏洞以复归安全合规状态。</li>
                 </ul>
+                <h3>等保 2.0 三级合规标准对接</h3>
+                <p>
+                  智能安全基线深度契合国家网络安全等级保护 2.0（等保 2.0）三级要求。系统围绕**“身份鉴别、访问控制、安全审计、入侵防范”**四大技术维度，内置高标准合规检查项。支持通过图形化面板一键对主机环境进行全量安全审计打分，对发现的不合规项目提供一键级联修复，最大程度降低主机被非法入侵或渗透的风险，确保业务底座的安全合规。
+                </p>
+                <DocScreenshot
+                  src={mlpsImg}
+                  alt="等保2.0 安全基线控制台"
+                  caption="等保2.0 安全合规基线控制台：支持按照等保 2.0 标准对所有纳管的主机资产进行自动化安全体检评分与一键漏洞加固自愈。"
+                />
               </section>
 
               {/* Module: rbac_permission */}
@@ -989,6 +1020,15 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   alt="Model & Knowledge Base Config"
                   caption="Model & Knowledge Base Console: Manage LLM integrations, prompt templates, and configure RAG vector search strategies for self-healing decisions."
                 />
+                <h3>Custom AI Prompt Templates</h3>
+                <p>
+                  AnsFlow offers customization for 7 core LLM scenarios: RAG Q&A, log diagnosis, alert analysis, DAG generation, DAG refinement, pipeline explanation, and vision OCR parser. Admins can dynamically edit templates in the configuration dashboard. The system automatically performs placeholder validation (e.g. checking for required variables like `{"{"}question{"}"}`) and features a robust fallback to static default prompts for absolute runtime safety.
+                </p>
+                <DocScreenshot
+                  src={customPromptImg}
+                  alt="Custom AI Prompt Templates"
+                  caption="Custom AI Prompt Templates Console: Edit and manage prompt templates with built-in placeholder validation and one-click restore functionality."
+                />
               </section>
 
               {/* Module: ai_chat */}
@@ -1147,6 +1187,15 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   alt="Config & Database Backup Center"
                   caption="Config & Database Backup Center: One-click backup, export, and quick restore of system settings and model parameters for disaster recovery."
                 />
+                <h3>Multi-Channel Notification & Event Whitelist</h3>
+                <p>
+                  The system integrates multi-channel alerting capabilities, supporting Feishu and DingTalk Webhook bot integrations. Administrators can toggle notifications globally, configure the minimum alerting level (e.g. "Only notify on errors"), and whitelist specific events (e.g. pipeline start/end, approval pending/resolved, task completion). It also fallback to environment variables (`.env`) gracefully to ensure a smooth deployment transition.
+                </p>
+                <DocScreenshot
+                  src={notificationConfigImg}
+                  alt="Notification Channels & Events Config"
+                  caption="Notification Config Console: Configure Webhook bot URLs, toggle notification channels, and manage whitelist event lists."
+                />
               </section>
 
               {/* Module: task_management */}
@@ -1180,6 +1229,15 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   <li><strong>Security Audits</strong>: Scans SSH config, firewall rules, user passwords, and vulnerability CVE records.</li>
                   <li><strong>Drift Remediation</strong>: If a server becomes non-compliant, an alert is triggered, and a remedial Ansible script is executed to restore baseline states.</li>
                 </ul>
+                <h3>MLPS 2.0 Level 3 Compliance Auditing</h3>
+                <p>
+                  The Security Compliance Baseline aligns with China's National Cyber Security Class Protection Level 3 (MLPS 2.0) standards. It covers key technical dimensions: **Identity Authentication, Access Control, Security Audit, and Intrusion Prevention**. Users can run full automated safety checks, view compliance score dashboards, and trigger one-click cascade remediation plans to minimize penetration risks.
+                </p>
+                <DocScreenshot
+                  src={mlpsImg}
+                  alt="MLPS 2.0 Compliance Baseline Dashboard"
+                  caption="MLPS 2.0 Compliance Baseline Console: Automated audits, security scoring, and self-healing vulnerability patches for all managed host assets."
+                />
               </section>
 
               {/* Module: rbac_permission */}

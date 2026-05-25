@@ -30,6 +30,13 @@ export interface TranslationSchema {
   feat5Desc: string;
   feat6Title: string;
   feat6Desc: string;
+  feat7Title: string;
+  feat7Desc: string;
+  feat8Title: string;
+  feat8Desc: string;
+  feat9Title: string;
+  feat9Desc: string;
+
 
   // Interactive Demo Section
   demoTitle: string;
@@ -122,6 +129,16 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
     feat6Title: '主机安全基线与定时自愈',
     feat6Desc: '定时巡检主机安全合规性。一旦检测到配置漂移或漏洞，AI 自动触发巡检与修复剧本，自动修复漏洞以维持基线合规。',
 
+    feat7Title: '等保 2.0 合规三级基线',
+    feat7Desc: '内置等保 2.0 三级标准安全合规检查。提供身份鉴别、访问控制、安全审计及入侵防范等维度的全量体检与漏洞一键自愈。',
+
+    feat8Title: 'AI 提示词模板自定义',
+    feat8Desc: '支持自定义 7 大核心场景的 LLM 提示词模板。内置变量占位符安全完整性校验，并提供安全容错回退机制与一键还原。',
+
+    feat9Title: '多渠道通知与事件白名单',
+    feat9Desc: '灵活对接飞书与钉钉机器人告警通道。支持在配置中心全局控制以及针对流水线、审批、任务等细粒度事件白名单推送过滤。',
+
+
     demoTitle: '实时交互式自愈演示',
     demoSubtitle: '亲手触发一次系统故障，看看 AnsFlow 的 AI 决策大脑是如何在数秒内恢复服务的。',
     demoBtnSimulate: '模拟故障降临',
@@ -206,6 +223,16 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
 
     feat6Title: 'Host Baseline Compliance',
     feat6Desc: 'Continuous host compliance checks. If any configuration drift or vulnerability is detected, AI automatically runs remediation playbooks to self-heal.',
+
+    feat7Title: 'MLPS 2.0 Compliance Audits',
+    feat7Desc: 'Built-in security compliance baseline aligned with China National Cyber Protection Level 3 requirements, enabling one-click checks and cascade vulnerabilities self-healing.',
+
+    feat8Title: 'Custom AI Prompt Templates',
+    feat8Desc: 'Customize LLM prompts for 7 core business scenarios (RAG, Log/Alert diagnosis, etc.) with required variable validation and robust safety fallback mechanisms.',
+
+    feat9Title: 'Multi-Channel Alerting Control',
+    feat9Desc: 'Centralized Feishu/DingTalk bot integrations. Dynamically filter notifications with a refined event whitelist (pipeline run, approval request, task failure).',
+
 
     demoTitle: 'Interactive Self-Healing Simulator',
     demoSubtitle: 'Trigger a simulated service failure and watch how AnsFlow AI brain restores services in seconds.',
