@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# AnsFlow Web
+> Landing Page & Documentation Portal for AnsFlow Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+English | [中文说明](./README_ZH.md)
 
-Currently, two official plugins are available:
+AnsFlow Web is the marketing landing page and technical documentation portal for the AnsFlow enterprise-level AI-driven declarative operations and self-healing platform. Built with React 19 + TypeScript + Vite, it features rich, premium glassmorphic UI design, interactive self-healing simulation flows, and comprehensive bilingual manuals.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Technical Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19 + TypeScript
+- **Bundler**: Vite 8
+- **Styling**: Vanilla CSS (Tailwind-free for precise micro-animations & layout responsiveness)
+- **Internationalization**: Custom lightweight reactive i18n hook
+- **Illustrations**: Pure CSS & SVG keyframe-animated representations of DevOps concepts (DAG, GitOps, RAG, etc.)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Core Features Displayed
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. **AI Self-Healing Engine**: root-cause diagnosis and auto-generation of Ansible Playbooks.
+2. **Visual DAG Orchestration**: ReactFlow-based visual topological designer.
+3. **Isolated Assets & Promote Channel**: Sandbox zones separating raw AI scripts from stable production files.
+4. **Continuous RAG Loop**: Vectorizing verified playbooks to build a self-growing knowledge base.
+5. **Cloud-Native GitOps Sync**: Declarative state synchronization with Kubernetes.
+6. **Host Baseline Compliance & MLPS 2.0**: Automated security audits and cascade self-healing against Chinese Cyber Protection Level 3 requirements.
+7. **Custom AI Prompt Templates**: Dynamic prompt configurations with dynamic variable validation.
+8. **Multi-Channel Alert Notifications**: Feishu & DingTalk bot integrations with event whitelisting.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
+
+```
+ansflow-web/
+├── public/                 # Static assets (favicons, etc.)
+├── src/
+│   ├── assets/             # Brand logos & global assets
+│   ├── components/         # Page Components
+│   │   ├── Header.tsx      # Navigation & Language Selector
+│   │   ├── Hero.tsx        # High-impact Hero Header
+│   │   ├── Features.tsx    # 3x3 Symmetrical Feature grid with animations
+│   │   ├── Architecture.tsx# Interactive Tech Topology diagram
+│   │   ├── InteractiveDemo.tsx # Live Self-healing Simulator
+│   │   ├── Docs.tsx        # Full Technical Manual (Bilingual)
+│   │   └── Footer.tsx      # Landing page Footer
+│   ├── context/            # React Context (i18n, routing states)
+│   ├── i18n/               # Localization translation dictionaries
+│   ├── imgs/               # Real product screenshots
+│   ├── index.css           # Core premium styling & animations
+│   ├── main.tsx            # App Entrypoint
+│   └── App.tsx             # Route dispatcher
+└── package.json
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+```bash
+npm install
+# or if using pnpm:
+pnpm install
 ```
+
+### Run Locally
+
+```bash
+npm run dev
+```
+
+### Production Build
+
+```bash
+npm run build
+```
+
+---
+
+## License
+
+Private - All Rights Reserved
