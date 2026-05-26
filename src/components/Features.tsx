@@ -3,6 +3,8 @@ import { useApp } from '../context/AppContext';
 import mlpsImg from '../imgs/等保2.0.png';
 import customPromptImg from '../imgs/自定义提示词.png';
 import notificationConfigImg from '../imgs/通知配置.png';
+import projectMgmtImg from '../imgs/项目管理.png';
+import assetShareImg from '../imgs/跨项目授权.png';
 
 export const Features: React.FC = () => {
   const { t } = useApp();
@@ -199,6 +201,24 @@ export const Features: React.FC = () => {
             </div>
             <h3 className="feature-card-title">{t('feat9Title')}</h3>
             <p className="feature-card-desc">{t('feat9Desc')}</p>
+          </div>
+
+          {/* Card 10: Multi-Project Workspace */}
+          <div className="glass-card feature-card">
+            <div className="feature-illustration-wrapper">
+              <img src={projectMgmtImg} alt="项目管理" className="feature-screenshot" />
+            </div>
+            <h3 className="feature-card-title">{t('feat10Title')}</h3>
+            <p className="feature-card-desc">{t('feat10Desc')}</p>
+          </div>
+
+          {/* Card 11: Cross-Project Asset Sharing */}
+          <div className="glass-card feature-card">
+            <div className="feature-illustration-wrapper">
+              <img src={assetShareImg} alt="跨项目授权" className="feature-screenshot" />
+            </div>
+            <h3 className="feature-card-title">{t('feat11Title')}</h3>
+            <p className="feature-card-desc">{t('feat11Desc')}</p>
           </div>
 
         </div>

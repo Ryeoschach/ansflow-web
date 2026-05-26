@@ -36,6 +36,10 @@ export interface TranslationSchema {
   feat8Desc: string;
   feat9Title: string;
   feat9Desc: string;
+  feat10Title: string;
+  feat10Desc: string;
+  feat11Title: string;
+  feat11Desc: string;
 
 
   // Interactive Demo Section
@@ -138,6 +142,12 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
     feat9Title: '多渠道通知与事件白名单',
     feat9Desc: '灵活对接飞书与钉钉机器人告警通道。支持在配置中心全局控制以及针对流水线、审批、任务等细粒度事件白名单推送过滤。',
 
+    feat10Title: '多工作区项目物理隔离',
+    feat10Desc: '引入项目与工作区成员（Project & ProjectMember）机制。对主机、凭证、流水线等核心资产在操作和数据层面实现行级租户隔离，全面拦截越权读写。',
+
+    feat11Title: '跨项目资产安全共享',
+    feat11Desc: '主机、凭据、流水线等核心资产支持一键跨项目授权共享。支持只读(read)、可引用执行(use)和完全控制(full)三级粒度，随时可安全撤回。',
+
 
     demoTitle: '实时交互式自愈演示',
     demoSubtitle: '亲手触发一次系统故障，看看 AnsFlow 的 AI 决策大脑是如何在数秒内恢复服务的。',
@@ -232,6 +242,12 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
 
     feat9Title: 'Multi-Channel Alerting Control',
     feat9Desc: 'Centralized Feishu/DingTalk bot integrations. Dynamically filter notifications with a refined event whitelist (pipeline run, approval request, task failure).',
+
+    feat10Title: 'Multi-Project Tenant Isolation',
+    feat10Desc: 'Introduces Projects and ProjectMember mechanisms. Enforces row-level workspace boundaries on hosts, credentials, pipelines, and tasks to block unauthorized access.',
+
+    feat11Title: 'Cross-Project Asset Sharing',
+    feat11Desc: 'Share hosts, credentials, or pipelines securely across workspaces under three levels: read (read-only), use (executable in pipeline without password leaks), and full.',
 
 
     demoTitle: 'Interactive Self-Healing Simulator',

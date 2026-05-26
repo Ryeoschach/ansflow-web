@@ -16,6 +16,8 @@ import aiChatImg from '../imgs/ai聊天功能.png';
 import mlpsImg from '../imgs/等保2.0.png';
 import customPromptImg from '../imgs/自定义提示词.png';
 import notificationConfigImg from '../imgs/通知配置.png';
+import projectMgmtImg from '../imgs/项目管理.png';
+import assetShareImg from '../imgs/跨项目授权.png';
 
 
 // Context for zoom functionality
@@ -788,15 +790,26 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
               {/* Module: rbac_permission */}
               <section id="rbac" className="doc-section">
                 <span className="badge">rbac_permission</span>
-                <h1>多租户 SmartRBAC 权限矩阵</h1>
+                <h1>多租户隔离与跨项目资产授权</h1>
                 <p>
-                  `rbac_permission` 提供精细的主机组隔离与操作级权限控制。
+                  `rbac_permission` 全面升级，引入多工作区项目隔离（Project & ProjectMember）与安全的跨项目资产共享机制。核心资产（主机、凭据、流水线、K8s 集群、Ansible 任务、自愈策略等）默认实现基于项目的行级物理隔离，并通过 X-Project-ID 实现工作区的动态无缝切换。
                 </p>
-                <h3>安全隔离维度</h3>
+                <h3>安全隔离与共享维度</h3>
                 <ul>
-                  <li><strong>操作权限拦截</strong>：对前端请求和 API 路径实现细粒度的 REST 动作（GET/POST/PUT/DELETE）级别权限鉴权。</li>
-                  <li><strong>数据域Mixin过滤 (DataScopeMixin)</strong>：通过继承 Django 查询集，根据租户标签动态重写数据范围。例如，项目 A 的运维人员在主机列表中默认只能看到项目 A 的机器，不可越权访问项目 B 的资产。</li>
+                  <li><strong>操作权限拦截</strong>：对前端请求和 API 路径实现细粒度的 REST 动作（GET/POST/PUT/DELETE）级别权限鉴权，基于 Redis 缓存角色与权限树。</li>
+                  <li><strong>数据域Mixin过滤 (DataScopeMixin)</strong>：继承 Django 查询集，自动按当前工作区项目 ID 进行物理拦截过滤。非本项目成员绝对无法越权查询或操作该项目资产。</li>
+                  <li><strong>跨项目定向共享 (ProjectAssetShare)</strong>：项目所有者可以将特定资产安全授权给其他目标项目使用，支持 <strong>只读 (read)</strong>、<strong>可引用执行 (use，可在流水线中跨项目调用但不能查看敏感密码)</strong> 和 <strong>完全控制 (full)</strong> 三级权限级别，并提供完整的操作人审计与发起方撤销防越权判定。</li>
                 </ul>
+                <DocScreenshot
+                  src={projectMgmtImg}
+                  alt="多项目与工作区管理"
+                  caption="多项目与工作区管理：提供隔离的项目工作空间。用户可在 Header 顶部栏随时无缝切换项目，React Query 自动刷新关联的所有数据集。"
+                />
+                <DocScreenshot
+                  src={assetShareImg}
+                  alt="跨项目资产授权"
+                  caption="跨项目资产授权弹窗：主机、凭证、流水线等 7 大资产详情列表一键触发，支持查看当前资产的所有授权，动态授权给目标项目并指定精确的权限级别。"
+                />
               </section>
 
               {/* Module: task_pulse */}
@@ -1243,15 +1256,26 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
               {/* Module: rbac_permission */}
               <section id="rbac" className="doc-section">
                 <span className="badge">rbac_permission</span>
-                <h1>SmartRBAC Permission Matrix</h1>
+                <h1>Project Multi-Tenancy & Cross-Project Asset Sharing</h1>
                 <p>
-                  `rbac_permission` provides robust tenant-isolation and operation-level access controls.
+                  `rbac_permission` is upgraded to support multi-workspace/project tenancy (`Project` & `ProjectMember`) and secure cross-project asset sharing. Core assets (Hosts, Credentials, Pipelines, K8s Clusters, Ansible Tasks, SRE Policies) are isolated at the database layer and resolved dynamically via the `X-Project-ID` request header.
                 </p>
-                <h3>Architecture</h3>
+                <h3>Architecture & Features</h3>
                 <ul>
-                  <li><strong>Action-level Enforcement</strong>: Restricts specific REST actions (GET/POST/PUT/DELETE) on API paths.</li>
-                  <li><strong>DataScopeMixin Filtering</strong>: Automatically filters Django ORM QuerySets based on user tenant tags (e.g. operators can only view resources within Project A).</li>
+                  <li><strong>Action-level Enforcement</strong>: Restricts specific REST actions (GET/POST/PUT/DELETE) on API paths, cached via Redis for maximum performance.</li>
+                  <li><strong>DataScopeMixin Filtering</strong>: Automatically filters Django ORM QuerySets based on active project IDs, preventing unauthorized access across workspace boundaries.</li>
+                  <li><strong>Cross-Project Asset Sharing (ProjectAssetShare)</strong>: Project owners can securely authorize specific resources to target projects under three permission levels: <strong>read</strong> (read-only), <strong>use</strong> (reference/execute in pipelines without exposing passwords), and <strong>full</strong> (complete control), backed by operations auditing and origin-restricted revocation.</li>
                 </ul>
+                <DocScreenshot
+                  src={projectMgmtImg}
+                  alt="Multi-Project & Workspace Management"
+                  caption="Multi-project and workspace management: Select and switch workspaces from the Header dropdown, which triggers automatic cache invalidation and UI updates."
+                />
+                <DocScreenshot
+                  src={assetShareImg}
+                  alt="Cross-Project Asset Sharing"
+                  caption="Cross-project asset sharing: Triggered on hosts, credentials, or pipelines, allowing owners to view existing authorizations and dynamically share resources with designated permission levels."
+                />
               </section>
 
               {/* Module: task_pulse */}
