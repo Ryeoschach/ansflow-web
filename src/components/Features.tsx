@@ -1,5 +1,8 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
+import mlpsImg from '../imgs/等保2.0.png';
+import customPromptImg from '../imgs/自定义提示词.png';
+import notificationConfigImg from '../imgs/通知配置.png';
 
 export const Features: React.FC = () => {
   const { t } = useApp();
@@ -174,31 +177,7 @@ export const Features: React.FC = () => {
           {/* Card 7: MLPS 2.0 Compliance */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <div className="ill-mlps">
-                <div className="mlps-shield-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(0, 113, 227, 0.1)" />
-                  </svg>
-                  <span className="mlps-text">等保三级</span>
-                </div>
-                <div className="mlps-checklist">
-                  <div className="mlps-check-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <div className="mlps-check-item" style={{ animationDelay: '0.5s' }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <div className="mlps-check-item" style={{ animationDelay: '1s' }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <img src={mlpsImg} alt="等保2.0" className="feature-screenshot" />
             </div>
             <h3 className="feature-card-title">{t('feat7Title')}</h3>
             <p className="feature-card-desc">{t('feat7Desc')}</p>
@@ -207,23 +186,7 @@ export const Features: React.FC = () => {
           {/* Card 8: Custom AI Prompts */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <div className="ill-custom-prompts">
-                <div className="prompt-editor-header">
-                  <span className="prompt-dot"></span>
-                  <span className="prompt-dot"></span>
-                  <span className="prompt-dot"></span>
-                </div>
-                <div className="prompt-editor-body">
-                  <div className="prompt-line cursor-blink">System Prompt:</div>
-                  <div className="prompt-line select-text">Analyze alert `{"{"}alert_name{"}"}`...</div>
-                  <div className="prompt-line select-text">Recommend Playbook...</div>
-                </div>
-                <div className="prompt-ai-sparkle">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--gradient-ai-end)" strokeWidth="2">
-                    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707" />
-                  </svg>
-                </div>
-              </div>
+              <img src={customPromptImg} alt="自定义提示词" className="feature-screenshot" />
             </div>
             <h3 className="feature-card-title">{t('feat8Title')}</h3>
             <p className="feature-card-desc">{t('feat8Desc')}</p>
@@ -232,18 +195,7 @@ export const Features: React.FC = () => {
           {/* Card 9: Multi-channel Notifications */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <div className="ill-notifications">
-                <div className="bell-wrapper">
-                  <svg className="bell-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                  </svg>
-                </div>
-                <div className="alert-bubbles">
-                  <div className="bubble bubble-feishu">飞书</div>
-                  <div className="bubble bubble-dingtalk">钉钉</div>
-                </div>
-              </div>
+              <img src={notificationConfigImg} alt="通知配置" className="feature-screenshot" />
             </div>
             <h3 className="feature-card-title">{t('feat9Title')}</h3>
             <p className="feature-card-desc">{t('feat9Desc')}</p>
@@ -910,9 +862,16 @@ export const Features: React.FC = () => {
           background-color: #007fff;
           animation-delay: 1.5s;
         }
-        @keyframes floatBubble {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
+        .feature-screenshot {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: top center;
+          transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .feature-card:hover .feature-screenshot {
+          transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
