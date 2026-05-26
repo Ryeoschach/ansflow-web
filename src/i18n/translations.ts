@@ -113,7 +113,7 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
     heroStatusActive: '已成功上线 · 运行中',
 
     featuresTitle: '重新定义自动化运维',
-    featuresSubtitle: '四大核心能力深度咬合，为您的基础设施提供全天候的自愈保障。',
+    featuresSubtitle: '各大核心特性深度咬合，为您的基础设施提供全天候的自愈保障。',
     
     feat1Title: 'AI 自愈决策引擎',
     feat1Desc: '自动接收告警并进行根因研判。无需人工干预，AI 自主设计排障思路并生成精准的自愈方案。',
@@ -214,7 +214,7 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
     heroStatusActive: 'Active & Protecting Infrastructure',
 
     featuresTitle: 'Redefining DevOps Automation',
-    featuresSubtitle: 'Four core pillars working together to shield your system from downtimes round the clock.',
+    featuresSubtitle: 'A cohesive suite of core capabilities working together to shield your system from downtime round the clock.',
     
     feat1Title: 'AI Self-Healing Engine',
     feat1Desc: 'Automatically digests alerts, assesses root causes, and designs precise step-by-step healing blueprints without human intervention.',

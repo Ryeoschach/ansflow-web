@@ -296,34 +296,34 @@ LLM_MODEL=deepseek-chat
 CELERY_CONCURRENCY=4
 ANSIBLE_HOST_KEY_CHECKING=False`;
 
-  const manualInstallCode = `# 1. 蜈矩嚀莉｣遐∝ｹｶ霑帛�蜷守ｫｯ逶ｮ蠖�
+  const manualInstallCode = `# 1. 克隆代码并进入后端目录
 git clone https://github.com/creed/AnsFlow.git
 cd AnsFlow/backend
 
-# 2. 蛻帛ｻｺ蟷ｶ豼豢ｻ Python 3.12 陌壽供邇ｯ蠅�
+# 2. 创建并激活 Python 3.12 虚拟环境
 python3.12 -m venv venv
 source venv/bin/activate
 
-# 3. 螳芽｣�ｾ晁ｵ� (菴ｿ逕ｨ uv 蜿ｯ莉･螟ｧ蟷�署騾�)
+# 3. 安装依赖 (使用 uv 可以大幅提速)
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# 4. 驟咲ｽｮ邇ｯ蠅�序驥�
+# 4. 配置环境变量
 cp .env.example .env
-# 郛冶ｾ� .env 菫ｮ謾ｹ謨ｰ謐ｮ蠎灘柱螟ｧ讓｡蝙� API Key 蜃ｭ隸�
+# 编辑 .env 修改数据库和大模型 API Key 凭证
 
-# 5. 蛻晏ｧ句喧謨ｰ謐ｮ蠎楢ｿ∫ｧｻ荳主�蟒ｺ雜�ｺｧ邂｡逅�遭
+# 5. 初始化数据库迁移与创建超级管理员
 python manage.py migrate
 python manage.py createsuperuser
 
-# 6. 蛻�悪蝨ｨ荳榊酔扈育ｫｯ謌紋ｽｿ逕ｨ systemd/supervisord 蜷ｯ蜉ｨ莉･荳区恪蜉｡:
-# Daphne ASGI 螳ｹ蝎ｨ譛榊苅蝎ｨ (螟�炊 HTTP & WebSocket)
+# 6. 分别在不同终端或使用 systemd/supervisord 启动以下服务:
+# Daphne ASGI 容器服务器 (处理 HTTP & WebSocket)
 daphne -b 127.0.0.1 -p 8000 backend.asgi:application
 
-# Celery Worker (蠑よｭ･謗帝囿荳主鴬譛ｬ謇ｧ陦�)
+# Celery Worker (异步排障与剧本执行)
 celery -A backend worker --loglevel=info
 
-# Celery Beat (螳壽慮螳牙�蝓ｺ郤ｿ蟾｡譽荳手�諢�)
+# Celery Beat (定时安全基线巡检与自愈)
 celery -A backend beat --loglevel=info`;
 
   return (
@@ -589,6 +589,7 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                 <ul>
                   <li><strong>交互式排障</strong>：允许工程师查询系统指标、日志，并针对当前活跃告警获取即时建议。</li>
                   <li><strong>即时剧本生成</strong>：用户可以直接发出指令（如“编写一个轮转日志的剧本”），AI 会输出语法校验通过的 YAML，并可直接保存为草稿或流水线。</li>
+                  <li><strong>WebSocket 实时流式响应</strong>：通过 WebSocket (Django Channels) 进行双向长连接，后端生成大模型文本与剧本代码时采用打字机式（Typewriter-style）流式推送，消除加载等待焦虑，给用户带来秒级实时交互体验。</li>
                   <li><strong>告警与资产感知</strong>：深度融合了当前活跃告警和资产列表，提供结合上下文的诊断和一键执行方案。</li>
                   <li><strong>安全沙箱与审批</strong>：从对话中发起的所有执行请求均需经过角色权限校验，并提交至操作审批中心审核。</li>
                 </ul>
@@ -621,6 +622,11 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                     <strong>流水线触发：</strong> 匹配成功后，自动调起对应的任务流流水线 (Pipeline DAG) 执行排障修复动作。
                   </div>
                 </div>
+                <h3>自愈安全与熔断机制</h3>
+                <ul>
+                  <li><strong>Webhook Token 安全校验</strong>：对于所有流入平台的告警 Webhook，系统支持自定义 Token 安全校验鉴权，拦截未授权或恶意伪造的告警载荷，确保自愈触发源头绝对可信。</li>
+                  <li><strong>自愈频次熔断器 (Circuit Breaker)</strong>：为防范因同类故障连续爆发造成的“执行风暴”（Execution Storm）或因流水线设计缺陷引发的“无限自愈死循环”，系统引入了基于滑动时间窗口的频次限制（如：10 分钟内同一策略上限自愈执行 3 次）。一旦达到熔断阈值，该策略将被强制标记为熔断状态并暂停自愈，同时自动向通知渠道推送紧急告警通知，维护生产系统稳定性。</li>
+                </ul>
                 <DocScreenshot
                   src={sreAlertsImg}
                   alt="SRE 告警中心"
@@ -1055,6 +1061,7 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                 <ul>
                   <li><strong>Interactive Troubleshooting</strong>: Allows engineers to query system metrics, logs, and ask for immediate advice regarding active alerts.</li>
                   <li><strong>On-the-fly Playbook Generation</strong>: Users can request scripts (e.g., "Write a playbook to rotate logs") and the AI will output syntax-validated YAML, ready to be saved to drafts or pipelines.</li>
+                  <li><strong>WebSocket Typewriter Streaming Response</strong>: Utilizes persistent WebSocket (Django Channels) connections to stream LLM chat texts and code output in real-time, providing immediate typewriter-style feedback and eliminating latency anxiety.</li>
                   <li><strong>Alert & Asset Awareness</strong>: Fully integrated with active alarms and inventory, providing context-aware diagnosis and one-click execution plans.</li>
                   <li><strong>Security Sandbox & Approvals</strong>: Any execution requests initiated from chat are subject to role check and sent to the Approval Center for verification.</li>
                 </ul>
@@ -1087,6 +1094,11 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                     <strong>Pipeline Triggering:</strong> Initiates the respective Directed Acyclic Graph (DAG) for troubleshooting.
                   </div>
                 </div>
+                <h3>Security & Circuit Breaker</h3>
+                <ul>
+                  <li><strong>Webhook Token Authorization</strong>: Secures alert webhook ingestion by checking customized authentication tokens, rejecting unauthorized or spoofed alert payloads.</li>
+                  <li><strong>Self-Healing Circuit Breaker</strong>: Mitigates "execution storms" or infinite self-healing loops. Admins can configure maximum execution thresholds within a sliding time window (e.g., max 3 runs per 10 minutes). When triggered, it pauses further automatic execution of the policy and pushes immediate notification alerts to Slack, Feishu, or DingTalk.</li>
+                </ul>
                 <DocScreenshot
                   src={sreAlertsImg}
                   alt="SRE Alert Center"

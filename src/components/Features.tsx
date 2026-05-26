@@ -1,10 +1,5 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import mlpsImg from '../imgs/等保2.0.png';
-import customPromptImg from '../imgs/自定义提示词.png';
-import notificationConfigImg from '../imgs/通知配置.png';
-import projectMgmtImg from '../imgs/项目管理.png';
-import assetShareImg from '../imgs/跨项目授权.png';
 
 export const Features: React.FC = () => {
   const { t } = useApp();
@@ -179,7 +174,31 @@ export const Features: React.FC = () => {
           {/* Card 7: MLPS 2.0 Compliance */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <img src={mlpsImg} alt="等保2.0" className="feature-screenshot" />
+              <div className="ill-mlps">
+                <div className="mlps-shield-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(0, 113, 227, 0.1)" />
+                  </svg>
+                  <span className="mlps-text">等保三级</span>
+                </div>
+                <div className="mlps-checklist">
+                  <div className="mlps-check-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div className="mlps-check-item" style={{ animationDelay: '0.5s' }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div className="mlps-check-item" style={{ animationDelay: '1s' }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
             <h3 className="feature-card-title">{t('feat7Title')}</h3>
             <p className="feature-card-desc">{t('feat7Desc')}</p>
@@ -188,7 +207,23 @@ export const Features: React.FC = () => {
           {/* Card 8: Custom AI Prompts */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <img src={customPromptImg} alt="自定义提示词" className="feature-screenshot" />
+              <div className="ill-custom-prompts">
+                <div className="prompt-editor-header">
+                  <span className="prompt-dot"></span>
+                  <span className="prompt-dot"></span>
+                  <span className="prompt-dot"></span>
+                </div>
+                <div className="prompt-editor-body">
+                  <div className="prompt-line"><span className="select-text">System:</span> You are an SRE...</div>
+                  <div className="prompt-line"><span className="select-text">User:</span> Diagnose {`{alert}`}</div>
+                  <div className="prompt-line select-text cursor-blink">Recommend Playbook...</div>
+                </div>
+                <div className="prompt-ai-sparkle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--gradient-ai-end)" strokeWidth="2">
+                    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707" />
+                  </svg>
+                </div>
+              </div>
             </div>
             <h3 className="feature-card-title">{t('feat8Title')}</h3>
             <p className="feature-card-desc">{t('feat8Desc')}</p>
@@ -197,7 +232,18 @@ export const Features: React.FC = () => {
           {/* Card 9: Multi-channel Notifications */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <img src={notificationConfigImg} alt="通知配置" className="feature-screenshot" />
+              <div className="ill-notifications">
+                <div className="bell-wrapper">
+                  <svg className="bell-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                  </svg>
+                </div>
+                <div className="alert-bubbles">
+                  <div className="bubble bubble-feishu">飞书</div>
+                  <div className="bubble bubble-dingtalk">钉钉</div>
+                </div>
+              </div>
             </div>
             <h3 className="feature-card-title">{t('feat9Title')}</h3>
             <p className="feature-card-desc">{t('feat9Desc')}</p>
@@ -206,7 +252,36 @@ export const Features: React.FC = () => {
           {/* Card 10: Multi-Project Workspace */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <img src={projectMgmtImg} alt="项目管理" className="feature-screenshot" />
+              <div className="ill-multi-project">
+                {/* Project A Box */}
+                <div className="project-box project-a">
+                  <span className="project-tag">Project A</span>
+                  <div className="project-nodes">
+                    <div className="mini-node"></div>
+                    <div className="mini-node"></div>
+                  </div>
+                </div>
+                {/* Isolation Barrier */}
+                <div className="isolation-barrier">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--border-color)" strokeWidth="1.5" strokeDasharray="3,3">
+                    <line x1="12" y1="2" x2="12" y2="22" />
+                  </svg>
+                  <div className="barrier-lock">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </div>
+                </div>
+                {/* Project B Box */}
+                <div className="project-box project-b">
+                  <span className="project-tag">Project B</span>
+                  <div className="project-nodes">
+                    <div className="mini-node"></div>
+                    <div className="mini-node"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <h3 className="feature-card-title">{t('feat10Title')}</h3>
             <p className="feature-card-desc">{t('feat10Desc')}</p>
@@ -215,7 +290,32 @@ export const Features: React.FC = () => {
           {/* Card 11: Cross-Project Asset Sharing */}
           <div className="glass-card feature-card">
             <div className="feature-illustration-wrapper">
-              <img src={assetShareImg} alt="跨项目授权" className="feature-screenshot" />
+              <div className="ill-asset-sharing">
+                {/* Left Source Project */}
+                <div className="share-project share-src">
+                  <div className="share-node share-active-node">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </div>
+                </div>
+                {/* Animated Share Arrow Path */}
+                <div className="share-flow-path">
+                  <svg viewBox="0 0 100 40" className="share-curve-svg">
+                    <path d="M 10 20 Q 50 5 90 20" fill="none" stroke="var(--border-color)" strokeWidth="1.5" strokeDasharray="3,3" />
+                    {/* Flowing credential/asset */}
+                    <circle r="4" fill="var(--accent-color)">
+                      <animateMotion dur="3s" repeatCount="indefinite" path="M 10 20 Q 50 5 90 20" />
+                    </circle>
+                  </svg>
+                  <div className="share-permission-badge">USE</div>
+                </div>
+                {/* Right Target Project */}
+                <div className="share-project share-dst">
+                  <div className="share-node placeholder-node"></div>
+                </div>
+              </div>
             </div>
             <h3 className="feature-card-title">{t('feat11Title')}</h3>
             <p className="feature-card-desc">{t('feat11Desc')}</p>
@@ -882,6 +982,199 @@ export const Features: React.FC = () => {
           background-color: #007fff;
           animation-delay: 1.5s;
         }
+
+        /* Card 10: Multi-Project Workspace CSS */
+        .ill-multi-project {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 15px;
+          width: 90%;
+          height: 120px;
+          position: relative;
+        }
+        .project-box {
+          width: 80px;
+          height: 70px;
+          border-radius: 8px;
+          border: 1px solid var(--border-color);
+          background-color: var(--bg-secondary);
+          padding: 8px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          z-index: 2;
+          position: relative;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+          transition: border-color 0.3s, transform 0.3s;
+        }
+        .project-a {
+          border-color: var(--accent-color);
+          background-color: rgba(0, 113, 227, 0.02);
+        }
+        .project-b {
+          border-color: var(--gradient-ai-start);
+          background-color: rgba(144, 70, 231, 0.02);
+        }
+        .project-tag {
+          font-size: 0.55rem;
+          font-weight: 800;
+          color: var(--text-tertiary);
+          text-transform: uppercase;
+          letter-spacing: 0.02em;
+        }
+        .project-a .project-tag {
+          color: var(--accent-color);
+        }
+        .project-b .project-tag {
+          color: var(--gradient-ai-start);
+        }
+        .project-nodes {
+          display: flex;
+          gap: 6px;
+        }
+        .mini-node {
+          width: 14px;
+          height: 14px;
+          border-radius: 3px;
+          background-color: var(--border-color);
+        }
+        .project-a .mini-node {
+          background-color: var(--accent-color);
+          opacity: 0.7;
+          animation: pulseNodeA 2s infinite ease-in-out;
+        }
+        .project-b .mini-node {
+          background-color: var(--gradient-ai-start);
+          opacity: 0.7;
+          animation: pulseNodeB 2s infinite ease-in-out;
+        }
+        .project-a .mini-node:nth-child(2) {
+          animation-delay: 0.5s;
+        }
+        .project-b .mini-node:nth-child(2) {
+          animation-delay: 0.8s;
+        }
+        @keyframes pulseNodeA {
+          0%, 100% { transform: scale(1); opacity: 0.6; }
+          50% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 6px var(--accent-glow); }
+        }
+        @keyframes pulseNodeB {
+          0%, 100% { transform: scale(1); opacity: 0.6; }
+          50% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 6px rgba(144, 70, 231, 0.3); }
+        }
+        .isolation-barrier {
+          position: relative;
+          width: 30px;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .isolation-barrier svg {
+          height: 80%;
+          color: var(--border-color);
+        }
+        .barrier-lock {
+          position: absolute;
+          width: 22px;
+          height: 22px;
+          background-color: var(--bg-primary);
+          border: 1px solid var(--border-color);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--card-shadow);
+        }
+        .barrier-lock svg {
+          width: 12px;
+          height: 12px;
+          color: var(--text-secondary);
+        }
+
+        /* Card 11: Cross-Project Asset Sharing CSS */
+        .ill-asset-sharing {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          width: 90%;
+          height: 120px;
+          position: relative;
+        }
+        .share-project {
+          width: 60px;
+          height: 60px;
+          border-radius: 8px;
+          border: 1px solid var(--border-color);
+          background-color: var(--bg-secondary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2;
+        }
+        .share-src {
+          border-color: var(--accent-color);
+          background-color: rgba(0, 113, 227, 0.02);
+        }
+        .share-dst {
+          border-color: var(--border-color);
+        }
+        .share-node {
+          width: 32px;
+          height: 32px;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .share-active-node {
+          background-color: var(--accent-color);
+          color: #ffffff;
+          box-shadow: 0 4px 10px var(--accent-glow);
+          animation: floatNode 3s infinite ease-in-out;
+        }
+        .share-active-node svg {
+          width: 16px;
+          height: 16px;
+        }
+        .share-flow-path {
+          flex-grow: 1;
+          height: 60px;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .share-curve-svg {
+          width: 100%;
+          height: 100%;
+          overflow: visible;
+        }
+        .share-permission-badge {
+          position: absolute;
+          bottom: -5px;
+          font-size: 0.55rem;
+          font-weight: 800;
+          color: #10b981;
+          background-color: rgba(16, 185, 129, 0.1);
+          border: 1px solid rgba(16, 185, 129, 0.2);
+          padding: 1px 4px;
+          border-radius: 3px;
+          letter-spacing: 0.05em;
+          animation: badgePulse 2s infinite ease-in-out;
+        }
+        @keyframes badgePulse {
+          0%, 100% { opacity: 0.8; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.05); }
+        }
+        @keyframes floatNode {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+
         .feature-screenshot {
           width: 100%;
           height: 100%;
