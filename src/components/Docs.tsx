@@ -18,6 +18,7 @@ import customPromptImg from '../imgs/自定义提示词.png';
 import notificationConfigImg from '../imgs/通知配置.png';
 import projectMgmtImg from '../imgs/项目管理.png';
 import assetShareImg from '../imgs/跨项目授权.png';
+import reportImg from '../imgs/report.png';
 
 
 // Context for zoom functionality
@@ -94,6 +95,7 @@ const SECTIONS = [
   { id: 'approval', labelZh: '操作审批中心 (approval_center)', labelEn: 'Approval Center' },
   { id: 'config', labelZh: '动态配置中心 (config_center)', labelEn: 'Configuration' },
   { id: 'task', labelZh: '任务审计与日志 (task_management)', labelEn: 'Task & Audit' },
+  { id: 'report', labelZh: '多维运营数据报表', labelEn: 'Operational Reports' },
   { id: 'baseline', labelZh: '智能安全基线 (Baseline)', labelEn: 'Security Baseline' },
   { id: 'rbac', labelZh: '多租户 SmartRBAC (rbac_permission)', labelEn: 'SmartRBAC' },
   { id: 'pulse', labelZh: '心跳健康检测 (task_pulse)', labelEn: 'Pulse Health Check' }
@@ -770,6 +772,28 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                 />
               </section>
 
+              {/* Module: system_reports */}
+              <section id="report" className="doc-section">
+                <span className="badge">system_reports</span>
+                <h1>多维运营数据报表</h1>
+                <p>
+                  `system_reports` 模块为平台运维管理者和团队决策者提供全局的**“数据洞察与运营分析”**能力。本模块深度整合流水线执行历史、Ansible 剧本、安全基线合规以及告警自愈四大维度的数据指标，形成全景多维运营看板。
+                </p>
+                <h3>核心功能与视图</h3>
+                <ul>
+                  <li><strong>告警自愈多维分析</strong>：统计告警总量、未恢复告警分布，监控自愈动作触发数、成功与失败比例，实时折线图展示自愈趋势。</li>
+                  <li><strong>流水线运行报表</strong>：追踪所有 DAG 流水线的运行统计（成功率、平均耗时等），分析流水线故障频率排名，精准识别高频失效节点。</li>
+                  <li><strong>Ansible 运行指标</strong>：剖析剧本执行的性能矩阵、Ansible 模块的使用热力图以及被纳管的主机资源调用分布。</li>
+                  <li><strong>合规性趋势监控</strong>：对主机资产进行全局安全合规评分监控，展示等保 2.0 合规比例演进历史及漏洞分布详情。</li>
+                  <li><strong>一键运营数据导出</strong>：支持快速打包导出包含上述多维运行指标的 CSV 压缩数据报表，便于团队归档与周报月报分析。</li>
+                </ul>
+                <DocScreenshot
+                  src={reportImg}
+                  alt="多维运营报表控制台"
+                  caption="多维运营报表控制台：深度整合告警自愈、流水线执行与主机合规的多维运维数据统计大屏，支持报表一键导出。"
+                />
+              </section>
+
               {/* Module: baseline */}
               <section id="baseline" className="doc-section">
                 <span className="badge">host_management - Baseline</span>
@@ -831,7 +855,7 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   <li><strong>故障隔离与熔断</strong>：一旦发现某个后端节点响应异常，会自动在配置中心中将该节点置为“下线”状态，避免其继续接收自愈任务流，从而确保平台的整体稳定性。</li>
                 </ul>
               </section>
-</>
+            </>
           ) : (
             /* ========================================================
                ENGLISH DOCUMENTATION CONTENT
@@ -1242,6 +1266,28 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                 />
               </section>
 
+              {/* Module: system_reports */}
+              <section id="report" className="doc-section">
+                <span className="badge">system_reports</span>
+                <h1>Multi-Dimensional Operational Reports</h1>
+                <p>
+                  The `system_reports` module equips managers and engineering leads with complete **data insights and operations analysis** tools. By correlating metrics from visual DAG pipelines, Ansible playbooks, security audits, and self-healing systems, it delivers a comprehensive operations analytics dashboard.
+                </p>
+                <h3>Report Modules Included</h3>
+                <ul>
+                  <li><strong>Alert & Self-Healing Dashboard</strong>: Aggregates global alert numbers, healing trigger counts, success rates, and interactive time-series charts.</li>
+                  <li><strong>DAG Pipeline Analytics</strong>: Measures execution frequency, failure rates, run time charts, and failure-frequency leaderboards to identify bottleneck nodes.</li>
+                  <li><strong>Ansible Playbook Stats</strong>: Dissects execution performance, module usage statistics, and task distribution across active host servers.</li>
+                  <li><strong>Compliance & Safety Metrics</strong>: Monitors average security scores, vulnerability distributions, and compliance trend curves aligned with cybersecurity regulations.</li>
+                  <li><strong>One-Click CSV Report Package Export</strong>: Allows bundling and downloading multi-dimensional CSV spreadsheets for technical archive and operational reporting.</li>
+                </ul>
+                <DocScreenshot
+                  src={reportImg}
+                  alt="Multi-Dimensional Operational Reports Console"
+                  caption="Multi-Dimensional Operational Reports Console: Gathers stats on self-healing performance, pipeline logs, and safety audits with built-in export functionality."
+                />
+              </section>
+
               {/* Module: baseline */}
               <section id="baseline" className="doc-section">
                 <span className="badge">host_management - Baseline</span>
@@ -1310,16 +1356,16 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
           <footer className="docs-inner-footer">
             <div className="docs-inner-footer-line"></div>
             <div className="docs-inner-footer-content">
-              <p>ﾂｩ {new Date().getFullYear()} AnsFlow. {language === 'zh' ? '菫晉蕗謇譛画揀蛻ｩ縲�' : 'All rights reserved.'}</p>
+              <p>© {new Date().getFullYear()} AnsFlow. {language === 'zh' ? '保留所有权利。' : 'All rights reserved.'}</p>
               <div className="docs-inner-footer-links">
                 <a href="#features" onClick={(e) => { e.preventDefault(); setView('home'); setTimeout(() => document.querySelector('#features')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>
-                  {language === 'zh' ? '蜉溯�迚ｹ諤ｧ' : 'Features'}
+                  {language === 'zh' ? '功能特性' : 'Features'}
                 </a>
                 <a href="#demo" onClick={(e) => { e.preventDefault(); setView('home'); setTimeout(() => document.querySelector('#demo')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>
-                  {language === 'zh' ? '蝨ｨ郤ｿ菴馴ｪ�' : 'Demo'}
+                  {language === 'zh' ? '在线体验' : 'Demo'}
                 </a>
                 <a href="#architecture" onClick={(e) => { e.preventDefault(); setView('home'); setTimeout(() => document.querySelector('#architecture')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>
-                  {language === 'zh' ? '邉ｻ扈滓楔譫�' : 'Architecture'}
+                  {language === 'zh' ? '系统架构' : 'Architecture'}
                 </a>
               </div>
             </div>

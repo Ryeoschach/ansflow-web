@@ -321,6 +321,38 @@ export const Features: React.FC = () => {
             <p className="feature-card-desc">{t('feat11Desc')}</p>
           </div>
 
+          {/* Card 12: Multi-Dimensional Operation Reports */}
+          <div className="glass-card feature-card">
+            <div className="feature-illustration-wrapper">
+              <div className="ill-reports">
+                {/* Donut Chart */}
+                <div className="reports-donut">
+                  <svg viewBox="0 0 36 36" className="donut-svg">
+                    <circle className="donut-ring" cx="18" cy="18" r="15.915" fill="none" stroke="var(--border-color)" strokeWidth="3"></circle>
+                    <circle className="donut-segment" cx="18" cy="18" r="15.915" fill="none" stroke="var(--accent-color)" strokeWidth="3" strokeDasharray="70 30" strokeDashoffset="25"></circle>
+                  </svg>
+                  <div className="donut-center-text">70%</div>
+                </div>
+                {/* Bar Chart */}
+                <div className="reports-bars">
+                  <div className="bar-track"><div className="bar-fill bar-1"></div></div>
+                  <div className="bar-track"><div className="bar-fill bar-2"></div></div>
+                  <div className="bar-track"><div className="bar-fill bar-3"></div></div>
+                </div>
+                {/* Metrics Badges */}
+                <div className="reports-trend">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="trend-arrow">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                    <polyline points="17 6 23 6 23 12"></polyline>
+                  </svg>
+                  <span className="trend-pct">+12%</span>
+                </div>
+              </div>
+            </div>
+            <h3 className="feature-card-title">{t('feat12Title')}</h3>
+            <p className="feature-card-desc">{t('feat12Desc')}</p>
+          </div>
+
         </div>
       </div>
 
@@ -1173,6 +1205,108 @@ export const Features: React.FC = () => {
         @keyframes floatNode {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-4px); }
+        }
+
+        /* Card 12: Multi-Dimensional Reports CSS */
+        .ill-reports {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          width: 90%;
+          height: 120px;
+          position: relative;
+          gap: 10px;
+        }
+        .reports-donut {
+          width: 54px;
+          height: 54px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .donut-svg {
+          transform: rotate(-90deg);
+          width: 100%;
+          height: 100%;
+        }
+        .donut-segment {
+          animation: donutFill 3s ease-out infinite alternate;
+        }
+        @keyframes donutFill {
+          0% { stroke-dasharray: 0 100; }
+          100% { stroke-dasharray: 70 30; }
+        }
+        .donut-center-text {
+          position: absolute;
+          font-size: 0.65rem;
+          font-weight: 800;
+          color: var(--text-primary);
+        }
+        .reports-bars {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          flex-grow: 1;
+          max-width: 70px;
+        }
+        .bar-track {
+          width: 100%;
+          height: 6px;
+          background-color: var(--bg-secondary);
+          border: 1px solid var(--border-color);
+          border-radius: 3px;
+          overflow: hidden;
+        }
+        .bar-fill {
+          height: 100%;
+          border-radius: 3px;
+          transform-origin: left;
+          animation: barGrow 3s ease-in-out infinite alternate;
+        }
+        .bar-1 {
+          background-color: var(--accent-color);
+          width: 80%;
+          animation-delay: 0.1s;
+        }
+        .bar-2 {
+          background-color: #10b981;
+          width: 55%;
+          animation-delay: 0.3s;
+        }
+        .bar-3 {
+          background-color: #f59e0b;
+          width: 30%;
+          animation-delay: 0.5s;
+        }
+        @keyframes barGrow {
+          0% { transform: scaleX(0); }
+          100% { transform: scaleX(1); }
+        }
+        .reports-trend {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+        }
+        .trend-arrow {
+          width: 24px;
+          height: 24px;
+          filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.3));
+          animation: trendFloat 2s infinite ease-in-out;
+        }
+        .trend-pct {
+          font-size: 0.6rem;
+          font-weight: 800;
+          color: #10b981;
+          background-color: rgba(16, 185, 129, 0.1);
+          border: 1px solid rgba(16, 185, 129, 0.2);
+          padding: 1px 4px;
+          border-radius: 3px;
+        }
+        @keyframes trendFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-3px); }
         }
 
         .feature-screenshot {

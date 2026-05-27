@@ -27,6 +27,7 @@ AnsFlow Web is the marketing landing page and technical documentation portal for
 6. **Host Baseline Compliance & MLPS 2.0**: Automated security audits and cascade self-healing against Chinese Cyber Protection Level 3 requirements.
 7. **Custom AI Prompt Templates**: Dynamic prompt configurations with dynamic variable validation.
 8. **Multi-Channel Alert Notifications**: Feishu & DingTalk bot integrations with event whitelisting.
+9. **Multi-Dimensional Operation Reports**: Statistical insights dashboards for alert self-healing, DAG runs, Ansible playbook executions, and compliance scores.
 
 ---
 

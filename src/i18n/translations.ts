@@ -40,6 +40,8 @@ export interface TranslationSchema {
   feat10Desc: string;
   feat11Title: string;
   feat11Desc: string;
+  feat12Title: string;
+  feat12Desc: string;
 
 
   // Interactive Demo Section
@@ -148,6 +150,9 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
     feat11Title: '跨项目资产安全共享',
     feat11Desc: '主机、凭据、流水线等核心资产支持一键跨项目授权共享。支持只读(read)、可引用执行(use)和完全控制(full)三级粒度，随时可安全撤回。',
 
+    feat12Title: '多维运营分析报表',
+    feat12Desc: '集成告警自愈统计、可视化 DAG 运行分析、Ansible 剧本执行指标及主机安全合规评分，支持一键导出 CSV 报表包。',
+
 
     demoTitle: '实时交互式自愈演示',
     demoSubtitle: '亲手触发一次系统故障，看看 AnsFlow 的 AI 决策大脑是如何在数秒内恢复服务的。',
@@ -248,6 +253,9 @@ export const translations: Record<'zh' | 'en', TranslationSchema> = {
 
     feat11Title: 'Cross-Project Asset Sharing',
     feat11Desc: 'Share hosts, credentials, or pipelines securely across workspaces under three levels: read (read-only), use (executable in pipeline without password leaks), and full.',
+
+    feat12Title: 'Multi-Dim Operation Reports',
+    feat12Desc: 'Aggregates alert self-healing, pipeline runs, Ansible task statistics, and host compliance baseline metrics with one-click CSV export.',
 
 
     demoTitle: 'Interactive Self-Healing Simulator',
