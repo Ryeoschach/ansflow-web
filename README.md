@@ -1,6 +1,14 @@
 # AnsFlow Web
 > Landing Page & Documentation Portal for AnsFlow Platform
 
+<p align="left">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19">
+  <img src="https://img.shields.io/badge/TypeScript-Ready-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 8">
+  <img src="https://img.shields.io/badge/License-Private-grey?style=for-the-badge" alt="License: Private">
+  <a href="./README_ZH.md"><img src="https://img.shields.io/badge/Lang-中文说明-red?style=for-the-badge" alt="中文说明"></a>
+</p>
+
 English | [中文说明](./README_ZH.md)
 
 AnsFlow Web is the marketing landing page and technical documentation portal for the AnsFlow enterprise-level AI-driven declarative operations and self-healing platform. Built with React 19 + TypeScript + Vite, it features rich, premium glassmorphic UI design, interactive self-healing simulation flows, and comprehensive bilingual manuals.

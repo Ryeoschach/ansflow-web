@@ -1,6 +1,14 @@
 # AnsFlow Web
 > AnsFlow 平台产品官网与技术说明文档门户
 
+<p align="left">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19">
+  <img src="https://img.shields.io/badge/TypeScript-Ready-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 8">
+  <img src="https://img.shields.io/badge/授权-私有-grey?style=for-the-badge" alt="授权: 私有">
+  <a href="./README.md"><img src="https://img.shields.io/badge/Lang-English-red?style=for-the-badge" alt="English"></a>
+</p>
+
 [English](./README.md) | 中文说明
 
 AnsFlow Web 是企业级 AI 驱动声明式运维与自愈平台 AnsFlow 的**产品宣传官网与技术说明文档门户**。基于 React 19 + TypeScript + Vite 构建，采用高级毛玻璃感（Glassmorphic）UI 视觉系统，内置实时自愈模拟器和完整的中英双语白皮书手册。
