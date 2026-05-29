@@ -684,12 +684,13 @@ pnpm dev`;
                 <span className="badge">config_center</span>
                 <h1>动态配置中心</h1>
                 <p>
-                  `config_center` 负责管理 AnsFlow 系统的底层运行参数、大模型 API 参数、邮件通知模板以及各业务模块 of 的全局变量。
+                  `config_center` 负责管理 AnsFlow 系统的底层运行参数、大模型 API 参数、通知模板以及各业务模块的全局变量。
                 </p>
                 <h3>设计与更新机制</h3>
                 <ul>
                   <li><strong>多维度隔离</strong>：将配置划分为系统全局配置、租户专有配置以及单个模块的局部变量，确保互不干扰。</li>
                   <li><strong>热重载更新</strong>：基于消息队列的订阅发布机制，在后台修改并保存参数后，Celery Worker 和主应用无需重启即可实时加载并应用最新配置。</li>
+                  <li><strong>系统注册表</strong>：后端通过配置注册表声明真正会被业务识别的固定 Key，例如 <code>notification.webhook_token</code> 和 <code>sre.sre.ignored_alert_names</code>。配置中心提供注册表视图，可查看系统识别 Key、默认值、所属模块和当前是否已初始化，避免新增 Key 后误以为后端会自动生效。</li>
                 </ul>
                 <DocScreenshot
                   src={backupRestoreImg}
@@ -1199,6 +1200,7 @@ pnpm dev`;
                 <ul>
                   <li><strong>Scope Isolation</strong>: Segregates variables into Platform, Tenant, and Module scopes.</li>
                   <li><strong>Hot Reload</strong>: On change, notification signals are sent to Celery and API executors, refreshing configuration values instantly without downtime.</li>
+                  <li><strong>System Registry</strong>: Backend-recognized keys are declared in a configuration registry, such as <code>notification.webhook_token</code> and <code>sre.sre.ignored_alert_names</code>. The Config Center provides a registry view for recognized keys, defaults, modules, and initialization status, so newly added keys are not mistaken for backend behavior toggles.</li>
                 </ul>
                 <DocScreenshot
                   src={backupRestoreImg}
