@@ -251,6 +251,22 @@ cd ansflow-frontend
 pnpm install
 pnpm dev`;
 
+  const alertmanagerCode = `receivers:
+  - name: ansflow
+    webhook_configs:
+      - url: "https://your-domain.com/api/v1/sre/alerts/receive/?token=YOUR_WEBHOOK_TOKEN&project_id=1"
+        send_resolved: true`;
+
+  const alertmanagerHeaderCode = `receivers:
+  - name: ansflow
+    webhook_configs:
+      - url: "https://your-domain.com/api/v1/sre/alerts/receive/?project_id=1"
+        send_resolved: true
+        http_config:
+          authorization:
+            type: Bearer
+            credentials: YOUR_WEBHOOK_TOKEN`;
+
   return (
     <DocZoomContext.Provider value={handleZoom}>
       <div className="docs-page container">
@@ -540,6 +556,26 @@ pnpm dev`;
                   <div className="wf-step">
                     <span className="num">3</span>
                     <strong>流水线触发：</strong> 匹配成功后，自动调起对应的任务流流水线 (Pipeline DAG) 执行排障修复动作。
+                  </div>
+                </div>
+                <h3>Alertmanager 接入配置</h3>
+                <p>
+                  在 AnsFlow 的 <strong>系统设置 → 通知配置</strong> 中先设置 <code>webhook_token</code>。该配置保存为 <code>notification.webhook_token</code>，留空时 Webhook 为兼容模式不启用鉴权；生产环境建议设置强随机 Token。
+                </p>
+                <p>
+                  Alertmanager 推送地址为 <code>/api/v1/sre/alerts/receive/</code>。如果需要把告警接入到当前项目，可在 URL 中追加 <code>project_id</code> 或 <code>project_code</code>，后端项目中间件会识别当前工作区；Token 可放在 URL 的 <code>token</code> 参数中：
+                </p>
+                <CodeBlock code={alertmanagerCode} lang="yaml" />
+                <p>
+                  如果不希望 Token 出现在 URL 中，也可以使用 Bearer Header：
+                </p>
+                <CodeBlock code={alertmanagerHeaderCode} lang="yaml" />
+                <div className="alert-box warning-alert">
+                  <div className="alert-icon">提示</div>
+                  <div className="alert-text">
+                    <strong>匹配策略：</strong>
+                    <br />
+                    自愈策略会根据 Alertmanager 上报的 <code>labels</code> 匹配，例如 <code>alertname</code>、<code>service</code>、<code>severity</code>。配置策略时请确保规则字段与 Prometheus 告警标签一致，并在目标项目中关联可执行的自愈流水线。
                   </div>
                 </div>
                 <h3>自愈安全与熔断机制</h3>
@@ -1029,6 +1065,26 @@ pnpm dev`;
                   <div className="wf-step">
                     <span className="num">3</span>
                     <strong>Pipeline Triggering:</strong> Initiates the respective Directed Acyclic Graph (DAG) for troubleshooting.
+                  </div>
+                </div>
+                <h3>Alertmanager Integration</h3>
+                <p>
+                  First set <code>webhook_token</code> in <strong>System Settings → Notification Config</strong>. It is stored as <code>notification.webhook_token</code>. If left empty, webhook authentication is disabled for compatibility; production deployments should use a strong random token.
+                </p>
+                <p>
+                  Alertmanager should post to <code>/api/v1/sre/alerts/receive/</code>. To route alerts into the current workspace, append <code>project_id</code> or <code>project_code</code> to the URL so the backend project middleware can resolve the active project. The token can be sent as a URL <code>token</code> parameter:
+                </p>
+                <CodeBlock code={alertmanagerCode} lang="yaml" />
+                <p>
+                  If you prefer not to expose the token in the URL, use a Bearer header instead:
+                </p>
+                <CodeBlock code={alertmanagerHeaderCode} lang="yaml" />
+                <div className="alert-box warning-alert">
+                  <div className="alert-icon">Notice</div>
+                  <div className="alert-text">
+                    <strong>Policy matching:</strong>
+                    <br />
+                    Self-healing policies match Alertmanager <code>labels</code>, such as <code>alertname</code>, <code>service</code>, and <code>severity</code>. Keep policy rule fields aligned with Prometheus alert labels, and bind the policy to an executable pipeline in the target project.
                   </div>
                 </div>
                 <h3>Security & Circuit Breaker</h3>
