@@ -1,93 +1,34 @@
 # AnsFlow Web
-> Landing Page & Documentation Portal for AnsFlow Platform
 
 <p align="left">
   <a href="https://ansflow.cyfee.com"><img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19"></a>
   <a href="https://ansflow.cyfee.com"><img src="https://img.shields.io/badge/TypeScript-Ready-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"></a>
   <a href="https://ansflow.cyfee.com"><img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 8"></a>
-  <a href="https://ansflow.cyfee.com"><img src="https://img.shields.io/badge/License-Private-grey?style=for-the-badge" alt="License: Private"></a>
   <a href="./README_ZH.md"><img src="https://img.shields.io/badge/Lang-中文说明-red?style=for-the-badge" alt="中文说明"></a>
 </p>
 
 English | [中文说明](./README_ZH.md)
 
-AnsFlow Web is the marketing landing page and technical documentation portal for the AnsFlow enterprise-level AI-driven declarative operations and self-healing platform. Built with React 19 + TypeScript + Vite, it features rich, premium glassmorphic UI design, interactive self-healing simulation flows, and comprehensive bilingual manuals.
+AnsFlow Web is the product site and documentation portal for AnsFlow. It introduces the platform, demonstrates core self-healing flows, and hosts detailed project, deployment, and usage documentation.
 
----
+- Live site: [https://ansflow.cyfee.com](https://ansflow.cyfee.com)
+- Frontend repository: [Ryeoschach/ansflow-frontend](https://github.com/Ryeoschach/ansflow-frontend)
+- Backend repository: [Ryeoschach/ansflow-backend](https://github.com/Ryeoschach/ansflow-backend)
 
-## Technical Stack
-
-- **Framework**: React 19 + TypeScript
-- **Bundler**: Vite 8
-- **Styling**: Vanilla CSS (Tailwind-free for precise micro-animations & layout responsiveness)
-- **Internationalization**: Custom lightweight reactive i18n hook
-- **Illustrations**: Pure CSS & SVG keyframe-animated representations of DevOps concepts (DAG, GitOps, RAG, etc.)
-
----
-
-## Core Features Displayed
-
-1. **AI Self-Healing Engine**: root-cause diagnosis and auto-generation of Ansible Playbooks.
-2. **Visual DAG Orchestration**: ReactFlow-based visual topological designer.
-3. **Isolated Assets & Promote Channel**: Sandbox zones separating raw AI scripts from stable production files.
-4. **Continuous RAG Loop**: Vectorizing verified playbooks to build a self-growing knowledge base.
-5. **Cloud-Native GitOps Sync**: Declarative state synchronization with Kubernetes.
-6. **Host Baseline Compliance & MLPS 2.0**: Automated security audits and cascade self-healing against Chinese Cyber Protection Level 3 requirements.
-7. **Custom AI Prompt Templates**: Dynamic prompt configurations with dynamic variable validation.
-8. **Multi-Channel Alert Notifications**: Feishu & DingTalk bot integrations with event whitelisting.
-9. **Multi-Dimensional Operation Reports**: Statistical insights dashboards for alert self-healing, DAG runs, Ansible playbook executions, and compliance scores.
-
----
-
-## Project Structure
-
-```
-ansflow-web/
-├── public/                 # Static assets (favicons, etc.)
-├── src/
-│   ├── assets/             # Brand logos & global assets
-│   ├── components/         # Page Components
-│   │   ├── Header.tsx      # Navigation & Language Selector
-│   │   ├── Hero.tsx        # High-impact Hero Header
-│   │   ├── Features.tsx    # 3x3 Symmetrical Feature grid with animations
-│   │   ├── Architecture.tsx# Interactive Tech Topology diagram
-│   │   ├── InteractiveDemo.tsx # Live Self-healing Simulator
-│   │   ├── Docs.tsx        # Full Technical Manual (Bilingual)
-│   │   └── Footer.tsx      # Landing page Footer
-│   ├── context/            # React Context (i18n, routing states)
-│   ├── i18n/               # Localization translation dictionaries
-│   ├── imgs/               # Real product screenshots
-│   ├── index.css           # Core premium styling & animations
-│   ├── main.tsx            # App Entrypoint
-│   └── App.tsx             # Route dispatcher
-└── package.json
-```
-
----
-
-## Getting Started
-
-### Installation
+## Development
 
 ```bash
-npm install
-# or if using pnpm:
 pnpm install
+pnpm dev
+pnpm build
 ```
 
-### Run Locally
+## Contents
 
-```bash
-npm run dev
-```
-
-### Production Build
-
-```bash
-npm run build
-```
-
----
+- Product overview and architecture
+- Deployment and initialization guide
+- Platform usage guide
+- AI/RAG, permissions, security, and operations notes
 
 ## License
 

@@ -189,144 +189,67 @@ export const Docs: React.FC = () => {
     }
   };
 
-  const dockerComposeCode = `version: '3.8'
+  const composeServicesCode = `ansflow-frontend  # Nginx + compiled frontend, entry point on port 80
+ansflow-api       # Django ASGI API and WebSocket service
+ansflow-worker    # Celery worker for pipeline, AI, and Ansible tasks
+ansflow-beat      # Celery Beat scheduler using DatabaseScheduler
+ansflow-monitor   # pulse_monitor process for worker and task heartbeat data
+ansflow-init      # one-shot migrations, collectstatic, optional system seed
+ansflow-db        # PostgreSQL with pgvector
+ansflow-redis     # Redis broker/cache with appendonly persistence`;
 
-services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: ansflow-postgres
-    environment:
-      POSTGRES_DB: ansflow
-      POSTGRES_USER: ansflow_user
-      POSTGRES_PASSWORD: SecretPassword123
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ansflow_user -d ansflow"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  const envCode = `# Required runtime secrets
+SECRET_KEY=change-me
+ALLOWED_HOSTS=localhost,127.0.0.1
 
-  redis:
-    image: redis:7-alpine
-    container_name: ansflow-redis
-    ports:
-      - "6379:6379"
+# First boot system seed. Set true only when you need to create default data.
+INIT_SYSTEM_DATA=true
+DJANGO_SUPERUSER_USERNAME=admin
+DJANGO_SUPERUSER_PASSWORD=ansflow
+DJANGO_SUPERUSER_EMAIL=admin@example.com
 
-  chromadb:
-    image: chromadb/chroma:0.4.15
-    container_name: ansflow-chroma
-    volumes:
-      - chromadata:/chroma/data
-    ports:
-      - "8000:8000"
-
-  django-api:
-    image: ansflow/backend:latest
-    container_name: ansflow-api
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: daphne -b 0.0.0.0 -p 8000 backend.asgi:application
-    environment:
-      - DATABASE_URL=postgres://ansflow_user:SecretPassword123@postgres:5432/ansflow
-      - REDIS_URL=redis://redis:6379/0
-      - CHROMA_SERVER_HOST=chromadb
-      - CHROMA_SERVER_PORT=8000
-      - LLM_API_KEY=your-api-key-here
-      - LLM_API_BASE=https://api.deepseek.com/v1
-    volumes:
-      - ./backend:/app
-    ports:
-      - "8000:8000"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
-
-  celery-worker:
-    image: ansflow/backend:latest
-    container_name: ansflow-worker
-    command: celery -A backend worker --loglevel=info
-    environment:
-      - DATABASE_URL=postgres://ansflow_user:SecretPassword123@postgres:5432/ansflow
-      - REDIS_URL=redis://redis:6379/0
-      - CHROMA_SERVER_HOST=chromadb
-    volumes:
-      - ./backend:/app
-    depends_on:
-      - redis
-      - postgres
-
-  celery-beat:
-    image: ansflow/backend:latest
-    container_name: ansflow-beat
-    command: celery -A backend beat --loglevel=info
-    environment:
-      - DATABASE_URL=postgres://ansflow_user:SecretPassword123@postgres:5432/ansflow
-      - REDIS_URL=redis://redis:6379/0
-    volumes:
-      - ./backend:/app
-    depends_on:
-      - redis
-      - postgres
-
-volumes:
-  pgdata:
-  chromadata:`;
-
-  const envCode = `# --- System Database Settings ---
-DATABASE_URL=postgres://ansflow_user:SecretPassword123@127.0.0.1:5432/ansflow
-
-# --- Redis Cache & Celery Broker ---
-REDIS_URL=redis://127.0.0.1:6379/0
-
-# --- Vector DB (ChromaDB) ---
-CHROMA_SERVER_HOST=127.0.0.1
-CHROMA_SERVER_PORT=8000
-
-# --- LLM API Configuration (LangChain Integration) ---
-LLM_PROVIDER=deepseek  # Options: deepseek, openai, ollama
-LLM_API_KEY=sk-xxxxxx-your-deepseek-api-key
+# AI provider
+LLM_PROVIDER=deepseek
+LLM_API_KEY=sk-xxxxxx-your-api-key
 LLM_API_BASE=https://api.deepseek.com/v1
 LLM_MODEL=deepseek-chat
 
-# --- Celery & Worker Execution Settings ---
-CELERY_CONCURRENCY=4
-ANSIBLE_HOST_KEY_CHECKING=False`;
+# Optional outbound proxy for image build or model downloads
+HTTP_PROXY=
+HTTPS_PROXY=
+NO_PROXY=localhost,127.0.0.1,ansflow-db,ansflow-redis`;
 
-  const manualInstallCode = `# 1. 克隆代码并进入后端目录
-git clone https://github.com/creed/AnsFlow.git
-cd AnsFlow/backend
+  const dockerCommandsCode = `# Run inside the backend directory
+cd backend
 
-# 2. 创建并激活 Python 3.12 虚拟环境
-python3.12 -m venv venv
-source venv/bin/activate
+# Start all services. ansflow-init exits with code 0 after successful initialization.
+docker compose up -d --build
 
-# 3. 安装依赖 (使用 uv 可以大幅提速)
-pip install --upgrade pip
-pip install -r requirements.txt
+# Check status and inspect key logs
+docker compose ps
+docker compose logs -f ansflow-init ansflow-api ansflow-worker
 
-# 4. 配置环境变量
+# Stop services without deleting persistent database/redis volumes
+docker compose down`;
+
+  const manualInstallCode = `# Backend
+git clone https://github.com/Ryeoschach/ansflow-backend.git
+cd ansflow-backend
+uv sync
 cp .env.example .env
-# 编辑 .env 修改数据库和大模型 API Key 凭证
+uv run python manage.py migrate
+uv run python manage.py runserver
 
-# 5. 初始化数据库迁移与创建超级管理员
-python manage.py migrate
-python manage.py createsuperuser
+# Worker, beat, and pulse monitor in separate terminals
+uv run celery -A config worker --loglevel=info -P solo
+uv run celery -A config beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+uv run python manage.py pulse_monitor
 
-# 6. 分别在不同终端或使用 systemd/supervisord 启动以下服务:
-# Daphne ASGI 容器服务器 (处理 HTTP & WebSocket)
-daphne -b 127.0.0.1 -p 8000 backend.asgi:application
-
-# Celery Worker (异步排障与剧本执行)
-celery -A backend worker --loglevel=info
-
-# Celery Beat (定时安全基线巡检与自愈)
-celery -A backend beat --loglevel=info`;
+# Frontend
+git clone https://github.com/Ryeoschach/ansflow-frontend.git
+cd ansflow-frontend
+pnpm install
+pnpm dev`;
 
   return (
     <DocZoomContext.Provider value={handleZoom}>
@@ -366,6 +289,9 @@ celery -A backend beat --loglevel=info`;
                 <h1>系统介绍与架构设计</h1>
                 <p>
                   AnsFlow 是一款先进的、AI 驱动的<strong>声明式运维与自愈平台</strong>。其架构核心围绕“双通道闭环”展开：一个由系统指标和配置驱动的<strong>自动化自愈闭环</strong>，以及一个供运维人员审计与晋升系统行为的<strong>审核优化闭环</strong>。
+                </p>
+                <p>
+                  项目由前端工作台、后端服务和产品展示文档站组成。源码仓库：<a href="https://github.com/Ryeoschach/ansflow-frontend" target="_blank" rel="noreferrer">ansflow-frontend</a>、<a href="https://github.com/Ryeoschach/ansflow-backend" target="_blank" rel="noreferrer">ansflow-backend</a>；产品展示与完整文档地址：<a href="https://ansflow.cyfee.com" target="_blank" rel="noreferrer">https://ansflow.cyfee.com</a>。
                 </p>
                 
                 {/* Visual SVG System Topology */}
@@ -475,7 +401,7 @@ celery -A backend beat --loglevel=info`;
                   <div className="tech-card">
                     <h4>展示层 (Frontend)</h4>
                     <ul>
-                      <li>React 19 & TypeScript</li>
+                      <li>React 18 & TypeScript</li>
                       <li>Vite 高速构建</li>
                       <li>Vanilla CSS 动效层</li>
                       <li>ReactFlow 流程图编辑器</li>
@@ -486,7 +412,7 @@ celery -A backend beat --loglevel=info`;
                     <ul>
                       <li>Django 5.2 (ASGI/Daphne)</li>
                       <li>Celery 异步队列</li>
-                      <li>PostgreSQL & Redis</li>
+                      <li>PostgreSQL/pgvector & Redis</li>
                       <li>Ansible Runner & SSH 隔离</li>
                     </ul>
                   </div>
@@ -494,7 +420,7 @@ celery -A backend beat --loglevel=info`;
                     <h4>智能层 (AI Brain)</h4>
                     <ul>
                       <li>LangChain Agent 框架</li>
-                      <li>ChromaDB 向量数据库</li>
+                      <li>pgvector / ChromaDB 向量检索</li>
                       <li>FastEmbed 轻量嵌入</li>
                       <li>LLM (DeepSeek / Ollama)</li>
                     </ul>
@@ -512,26 +438,18 @@ celery -A backend beat --loglevel=info`;
 
                 <h2>方式 A: Docker Compose 部署 (推荐)</h2>
                 <p>
-                  使用 Docker Compose 部署可以快速启动包括 Django API、Redis、PostgreSQL、Celery 队列及 ChromaDB 向量库在内的全部微服务。
+                  使用后端仓库内置的 <code>docker-compose.yml</code> 可以快速启动前端网关、Django API、PostgreSQL/pgvector、Redis、Celery Worker/Beat 与心跳监控。文档只列出必要信息，完整配置以仓库中的 compose 文件为准。
                 </p>
-                <div className="step-title">1. 创建 docker-compose.yml 配置文件</div>
-                <CodeBlock code={dockerComposeCode} lang="yaml" />
+                <div className="step-title">1. 服务组成</div>
+                <CodeBlock code={composeServicesCode} lang="text" />
 
                 <div className="step-title">2. 创建并配置环境变量文件 (.env)</div>
-                <p>在与 `docker-compose.yml` 同级的目录下新建 `.env` 文件，并输入以下关键参数：</p>
+                <p>在 <code>backend/.env</code> 中确认以下关键参数。超级管理员账号来自环境变量，首次初始化时无需再手动执行创建管理员命令。</p>
                 <CodeBlock code={envCode} lang="env" />
 
                 <div className="step-title">3. 一键启动服务</div>
-                <p>在终端中运行以下命令：</p>
-                <CodeBlock code={`# 在后台启动所有容器服务
-docker compose up -d
-
-# 检查容器 status
-docker compose ps
-
-# 执行数据库迁移并创建超级管理员
-docker compose exec django-api python manage.py migrate
-docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
+                <p>在项目根目录的后端子目录中运行以下命令：</p>
+                <CodeBlock code={dockerCommandsCode} lang="bash" />
 
                 <h2>方式 B: 手动开发部署</h2>
                 <p>适合本地调试与开发。运行环境需要 Python 3.12+、Redis 7+ 和 PostgreSQL 15+：</p>
@@ -542,11 +460,11 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   <div className="alert-text">
                     <strong>部署注意事项：</strong>
                     <br />
-                    1. <strong>ChromaDB 持久化：</strong> 确保容器或本地运行进程对 `chromadata` 目录拥有读写权限。
+                    1. <strong>初始化行为：</strong> <code>ansflow-init</code> 会执行迁移与静态文件收集；只有当 <code>INIT_SYSTEM_DATA=true</code> 时才会执行系统内置数据初始化。
                     <br />
-                    2. <strong>凭证安全：</strong> Ansible 执行所需的 SSH 私钥受到 SmartRBAC 保护，对应的物理目录应符合标准的 `700` (目录) / `600` (文件) 权限配置。
+                    2. <strong>数据持久化：</strong> PostgreSQL 与 Redis 使用命名 volume 保存数据，执行 <code>docker compose down -v</code> 会删除这些数据。
                     <br />
-                    3. <strong>LLM API 连接：</strong> 若使用公有云模型（如 DeepSeek），确保 Django 宿主机具备外部网络访问权限。
+                    3. <strong>LLM API 连接：</strong> 若使用公有云模型（如 DeepSeek），确保后端容器具备外部网络访问权限。
                   </div>
                 </div>
               </section>
@@ -866,7 +784,10 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                 <span className="badge">System Architecture</span>
                 <h1>Introduction & Architecture</h1>
                 <p>
-                  AnsFlow is an advanced, AI-driven <strong>declarative operations and self-healing platform</strong>. Its architectural core revolves around a "Double-Channel Closed Loop": a **Self-Healing Loop** triggered by system metrics and configurations, and a **Reviewer Optimization Loop** for humans to audit and promote system behaviors.
+                  AnsFlow is an advanced, AI-driven <strong>declarative operations and self-healing platform</strong>. Its architectural core revolves around a "Double-Channel Closed Loop": a self-healing loop triggered by system metrics and configurations, and a reviewer optimization loop for humans to audit and promote system behaviors.
+                </p>
+                <p>
+                  The platform consists of the frontend console, backend services, and this product documentation site. Source repositories: <a href="https://github.com/Ryeoschach/ansflow-frontend" target="_blank" rel="noreferrer">ansflow-frontend</a>, <a href="https://github.com/Ryeoschach/ansflow-backend" target="_blank" rel="noreferrer">ansflow-backend</a>. Product site and full documentation: <a href="https://ansflow.cyfee.com" target="_blank" rel="noreferrer">https://ansflow.cyfee.com</a>.
                 </p>
                 
                 {/* Visual SVG System Topology */}
@@ -969,7 +890,7 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                   <div className="tech-card">
                     <h4>Presentation (Frontend)</h4>
                     <ul>
-                      <li>React 19 & TypeScript</li>
+                      <li>React 18 & TypeScript</li>
                       <li>Vite Bundler</li>
                       <li>Vanilla CSS Animations</li>
                       <li>ReactFlow Pipeline visualizer</li>
@@ -980,7 +901,7 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                     <ul>
                       <li>Django 5.2 (ASGI/Daphne)</li>
                       <li>Celery Distributed Queue</li>
-                      <li>PostgreSQL & Redis Broker</li>
+                      <li>PostgreSQL/pgvector & Redis Broker</li>
                       <li>Isolated Ansible Runner</li>
                     </ul>
                   </div>
@@ -988,7 +909,7 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
                     <h4>AI Matrix (AI Brain)</h4>
                     <ul>
                       <li>LangChain Agent Framework</li>
-                      <li>ChromaDB Vector Store</li>
+                      <li>pgvector / ChromaDB vector retrieval</li>
                       <li>FastEmbed Embeddings</li>
                       <li>DeepSeek-V3 / local Ollama</li>
                     </ul>
@@ -1006,41 +927,33 @@ docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
 
                 <h2>Method A: Docker Compose Deployment (Recommended)</h2>
                 <p>
-                  Starts the Django API Server, PostgreSQL database, Redis Cache/Broker, Celery Worker/Beat, and ChromaDB vector store automatically.
+                  The backend repository includes a <code>docker-compose.yml</code> that starts the frontend gateway, Django API, PostgreSQL/pgvector, Redis, Celery Worker/Beat, and heartbeat monitor. This guide only lists the required pieces; the repository compose file remains the source of truth.
                 </p>
-                <div className="step-title">1. Create docker-compose.yml configuration</div>
-                <CodeBlock code={dockerComposeCode} lang="yaml" />
+                <div className="step-title">1. Service Overview</div>
+                <CodeBlock code={composeServicesCode} lang="text" />
 
                 <div className="step-title">2. Set up Environment Variables (.env)</div>
-                <p>Create a `.env` file adjacent to `docker-compose.yml` with the following variables:</p>
+                <p>Review the following key values in <code>backend/.env</code>. The default superuser is read from environment variables during first initialization, so a separate manual superuser command is not required.</p>
                 <CodeBlock code={envCode} lang="env" />
 
                 <div className="step-title">3. Launch Services</div>
-                <p>Execute the following commands in your shell terminal:</p>
-                <CodeBlock code={`# Start all containerized services in background
-docker compose up -d
-
-# Verify container statuses
-docker compose ps
-
-# Perform DB migrations and create superuser
-docker compose exec django-api python manage.py migrate
-docker compose exec django-api python manage.py createsuperuser`} lang="bash" />
+                <p>Run the following commands from the backend directory:</p>
+                <CodeBlock code={dockerCommandsCode} lang="bash" />
 
                 <h2>Method B: Manual Source Code Installation</h2>
                 <p>For development and local debugging. Requires Python 3.12+, Redis 7+ and PostgreSQL:</p>
                 <CodeBlock code={manualInstallCode} lang="bash" />
 
                 <div className="alert-box warning-alert">
-                  <div className="alert-icon">笞���</div>
+                  <div className="alert-icon">Notice</div>
                   <div className="alert-text">
                     <strong>Critical Notices:</strong>
                     <br />
-                    1. <strong>ChromaDB Persistence:</strong> Ensure the container or local process has proper read/write permissions over the `chromadata` directory.
+                    1. <strong>Initialization:</strong> <code>ansflow-init</code> runs migrations and static collection; system seed commands run only when <code>INIT_SYSTEM_DATA=true</code>.
                     <br />
-                    2. <strong>Credential Directories:</strong> SSH Keys utilized by Ansible are heavily guarded by SmartRBAC. Make sure `/app/credentials/` directories have standard `700` (folders) and `600` (files) permissions.
+                    2. <strong>Persistence:</strong> PostgreSQL and Redis use named volumes. Running <code>docker compose down -v</code> removes persisted data.
                     <br />
-                    3. <strong>LLM API connection:</strong> Ensure the host Django application has outbound internet connectivity if using public cloud models (e.g. DeepSeek / OpenAI).
+                    3. <strong>LLM API connection:</strong> Ensure backend containers have outbound internet access if using public cloud models such as DeepSeek or OpenAI.
                   </div>
                 </div>
               </section>
