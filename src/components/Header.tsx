@@ -14,8 +14,15 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const clearHash = () => {
+    if (window.location.hash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    clearHash();
     if (view === 'docs') {
       setView('home');
       setTimeout(() => {
@@ -37,7 +44,7 @@ export const Header: React.FC = () => {
     <header className={`glass-effect header-nav ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
         {/* LOGO */}
-        <a href="#" className="logo-area" onClick={(e) => { e.preventDefault(); setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); setMobileMenuOpen(false); }}>
+        <a href="#" className="logo-area" onClick={(e) => { e.preventDefault(); clearHash(); setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); setMobileMenuOpen(false); }}>
           <svg className="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
             <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -51,7 +58,7 @@ export const Header: React.FC = () => {
           <a href="#features" className="nav-link" onClick={(e) => handleNavClick(e, '#features')}>{t('navFeatures')}</a>
           <a href="#demo" className="nav-link" onClick={(e) => handleNavClick(e, '#demo')}>{t('navDemo')}</a>
           <a href="#architecture" className="nav-link" onClick={(e) => handleNavClick(e, '#architecture')}>{t('navArchitecture')}</a>
-          <a href="#docs" className={`nav-link ${view === 'docs' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setView('docs'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>{t('navDocs')}</a>
+          <a href="#docs" className={`nav-link ${view === 'docs' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); clearHash(); setView('docs'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>{t('navDocs')}</a>
         </nav>
 
         {/* Actions Button Group */}
@@ -100,7 +107,7 @@ export const Header: React.FC = () => {
           <a href="#features" className="mobile-nav-link" onClick={(e) => handleNavClick(e, '#features')}>{t('navFeatures')}</a>
           <a href="#demo" className="mobile-nav-link" onClick={(e) => handleNavClick(e, '#demo')}>{t('navDemo')}</a>
           <a href="#architecture" className="mobile-nav-link" onClick={(e) => handleNavClick(e, '#architecture')}>{t('navArchitecture')}</a>
-          <a href="#docs" className={`mobile-nav-link ${view === 'docs' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setView('docs'); window.scrollTo({ top: 0, behavior: 'smooth' }); setMobileMenuOpen(false); }}>{t('navDocs')}</a>
+          <a href="#docs" className={`mobile-nav-link ${view === 'docs' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); clearHash(); setView('docs'); window.scrollTo({ top: 0, behavior: 'smooth' }); setMobileMenuOpen(false); }}>{t('navDocs')}</a>
           <a href="#demo" className="btn btn-primary mobile-nav-btn" onClick={(e) => handleNavClick(e, '#demo')}>
             {t('navGetStarted')}
           </a>

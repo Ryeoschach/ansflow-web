@@ -11,6 +11,17 @@ import { Footer } from './components/Footer';
 const AppContent: React.FC = () => {
   const { view } = useApp();
 
+  React.useLayoutEffect(() => {
+    if (['#features', '#architecture', '#demo'].includes(window.location.hash)) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    const frameId = window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    });
+    return () => window.cancelAnimationFrame(frameId);
+  }, []);
+
   return (
     <>
       <Header />

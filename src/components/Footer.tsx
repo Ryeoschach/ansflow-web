@@ -2,7 +2,27 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 
 export const Footer: React.FC = () => {
-  const { t } = useApp();
+  const { t, setView } = useApp();
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, selector: string) => {
+    e.preventDefault();
+    if (window.location.hash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+    setView('home');
+    window.setTimeout(() => {
+      document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  const scrollToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (window.location.hash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+    setView('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <footer className="footer">
@@ -10,7 +30,7 @@ export const Footer: React.FC = () => {
         
         {/* Brand column */}
         <div className="footer-brand">
-          <a href="#" className="footer-logo">
+          <a href="#" className="footer-logo" onClick={scrollToTop}>
             <svg className="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
               <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -25,9 +45,9 @@ export const Footer: React.FC = () => {
         <div className="footer-links-grid">
           <div className="footer-col">
             <h4 className="footer-col-title">{t('footerProduct')}</h4>
-            <a href="#features" className="footer-link">{t('navFeatures')}</a>
-            <a href="#demo" className="footer-link">{t('navDemo')}</a>
-            <a href="#" className="footer-link">AI Engine</a>
+            <a href="#features" className="footer-link" onClick={(e) => scrollToSection(e, '#features')}>{t('navFeatures')}</a>
+            <a href="#demo" className="footer-link" onClick={(e) => scrollToSection(e, '#demo')}>{t('navDemo')}</a>
+            <a href="#" className="footer-link" onClick={scrollToTop}>AI Engine</a>
           </div>
           <div className="footer-col">
             <h4 className="footer-col-title">{t('footerResources')}</h4>
@@ -48,7 +68,7 @@ export const Footer: React.FC = () => {
         <div className="container footer-bottom-container">
           <p className="footer-copy">{t('footerRights')}</p>
           <div className="footer-socials">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub">
+            <a href="https://github.com/Ryeoschach/ansflow-backend" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
               </svg>

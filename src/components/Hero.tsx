@@ -4,6 +4,14 @@ import { useApp } from '../context/AppContext';
 export const Hero: React.FC = () => {
   const { t } = useApp();
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, selector: string) => {
+    e.preventDefault();
+    if (window.location.hash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+    document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="section hero-section">
       {/* Glow backgrounds */}
@@ -41,13 +49,13 @@ export const Hero: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="hero-actions">
-          <a href="#demo" className="btn btn-primary btn-lg">
+          <a href="#demo" className="btn btn-primary btn-lg" onClick={(e) => scrollToSection(e, '#demo')}>
             {t('heroPrimaryBtn')}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-          <a href="#features" className="btn btn-secondary btn-lg">
+          <a href="#features" className="btn btn-secondary btn-lg" onClick={(e) => scrollToSection(e, '#features')}>
             {t('heroSecondaryBtn')}
           </a>
         </div>
