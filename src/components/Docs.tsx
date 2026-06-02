@@ -267,6 +267,30 @@ pnpm dev`;
             type: Bearer
             credentials: YOUR_WEBHOOK_TOKEN`;
 
+  const victoriaChainCode = `# Recommended observability and alerting chain
+vmagent -> VictoriaMetrics
+Vector / Fluent Bit / Promtail -> VictoriaLogs
+vmalert -> Alertmanager -> AnsFlow webhook`;
+
+  const vmalertCode = `# vmalert startup example
+vmalert \\
+  -datasource.url=http://victoriametrics:8428 \\
+  -notifier.url=http://alertmanager:9093 \\
+  -rule=/etc/vmalert/ansflow-rules.yml`;
+
+  const victoriaRuleCode = `groups:
+  - name: ansflow-service
+    rules:
+      - alert: ServiceDown
+        expr: up{job="app"} == 0
+        for: 3m
+        labels:
+          severity: critical
+          source: vmalert
+        annotations:
+          summary: "Service is down"
+          description: "Target {{ $labels.instance }} is down"`;
+
   return (
     <DocZoomContext.Provider value={handleZoom}>
       <div className="docs-page container">
@@ -558,6 +582,17 @@ pnpm dev`;
                     <strong>流水线触发：</strong> 匹配成功后，自动调起对应的任务流流水线 (Pipeline DAG) 执行排障修复动作。
                   </div>
                 </div>
+                <h3>推荐观测与告警链路</h3>
+                <p>
+                  第一版推荐使用 <strong>vmagent + VictoriaMetrics + VictoriaLogs + vmalert + Alertmanager + AnsFlow</strong>。
+                  其中 vmagent 负责指标采集，VictoriaMetrics 存储指标，VictoriaLogs 存储日志，vmalert 评估告警规则，Alertmanager 负责分组、静默和通知路由，AnsFlow 接收 Webhook 后执行告警诊断、自愈策略匹配和时间点诊断。
+                </p>
+                <CodeBlock code={victoriaChainCode} lang="text" />
+                <p>
+                  AnsFlow 不直接管理外部 Victoria 组件，也不自动下发 vmalert 规则。可以在 <strong>SRE → 诊断中心</strong> 配置 VictoriaMetrics / VictoriaLogs 数据源、服务标签映射，并使用规则模板生成 vmalert YAML 片段。
+                </p>
+                <CodeBlock code={vmalertCode} lang="bash" />
+                <CodeBlock code={victoriaRuleCode} lang="yaml" />
                 <h3>Alertmanager 接入配置</h3>
                 <p>
                   在 AnsFlow 的 <strong>系统设置 → 通知配置</strong> 中先设置 <code>webhook_token</code>。该配置保存为 <code>notification.webhook_token</code>，留空时 Webhook 为兼容模式不启用鉴权；生产环境建议设置强随机 Token。
@@ -1068,6 +1103,17 @@ pnpm dev`;
                     <strong>Pipeline Triggering:</strong> Initiates the respective Directed Acyclic Graph (DAG) for troubleshooting.
                   </div>
                 </div>
+                <h3>Recommended Observability and Alerting Chain</h3>
+                <p>
+                  The recommended v1 chain is <strong>vmagent + VictoriaMetrics + VictoriaLogs + vmalert + Alertmanager + AnsFlow</strong>.
+                  vmagent scrapes metrics, VictoriaMetrics stores metrics, VictoriaLogs stores logs, vmalert evaluates alerting rules, Alertmanager handles grouping, silencing and routing, and AnsFlow receives webhooks for alert diagnosis, self-healing policy matching, and timepoint diagnosis.
+                </p>
+                <CodeBlock code={victoriaChainCode} lang="text" />
+                <p>
+                  AnsFlow does not directly manage external Victoria components or push vmalert rules. Configure VictoriaMetrics / VictoriaLogs data sources and service label mappings in <strong>SRE → Diagnosis Center</strong>, then use rule templates to render vmalert YAML snippets.
+                </p>
+                <CodeBlock code={vmalertCode} lang="bash" />
+                <CodeBlock code={victoriaRuleCode} lang="yaml" />
                 <h3>Alertmanager Integration</h3>
                 <p>
                   First set <code>webhook_token</code> in <strong>System Settings → Notification Config</strong>. It is stored as <code>notification.webhook_token</code>. If left empty, webhook authentication is disabled for compatibility; production deployments should use a strong random token.
