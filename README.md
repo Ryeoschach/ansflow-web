@@ -12,8 +12,16 @@ English | [中文说明](./README_ZH.md)
 AnsFlow Web is the product site and documentation portal for AnsFlow. It introduces the platform, demonstrates core self-healing flows, and hosts detailed project, deployment, and usage documentation.
 
 - Live site: [https://ansflow.cyfee.com](https://ansflow.cyfee.com)
-- Frontend repository: [Ryeoschach/ansflow-frontend](https://github.com/Ryeoschach/ansflow-frontend)
-- Backend repository: [Ryeoschach/ansflow-backend](https://github.com/Ryeoschach/ansflow-backend)
+
+### GitHub Repositories
+- Portal Web: [Ryeoschach/ansflow-web](https://github.com/Ryeoschach/ansflow-web)
+- Frontend: [Ryeoschach/ansflow-frontend](https://github.com/Ryeoschach/ansflow-frontend)
+- Backend: [Ryeoschach/ansflow-backend](https://github.com/Ryeoschach/ansflow-backend)
+
+### Gitee Mirrors
+- Portal Web: [cyfee/ansflow-web](https://gitee.com/cyfee/ansflow-web)
+- Frontend: [cyfee/ansflow-frontend](https://gitee.com/cyfee/ansflow-frontend)
+- Backend: [cyfee/ansflow-backend](https://gitee.com/cyfee/ansflow-backend)
 
 ## Development
 

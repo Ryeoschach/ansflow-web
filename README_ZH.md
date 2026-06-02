@@ -12,12 +12,16 @@
 AnsFlow Web 是 AnsFlow 的产品展示站与统一说明文档门户，用于介绍平台能力、展示自愈流程，并集中维护项目说明、部署步骤和使用说明。
 
 - 在线地址：[https://ansflow.cyfee.com](https://ansflow.cyfee.com)
-[GITHUB]
+
+### GitHub 仓库
+- 门户网站：[Ryeoschach/ansflow-web](https://github.com/Ryeoschach/ansflow-web)
 - 前端仓库：[Ryeoschach/ansflow-frontend](https://github.com/Ryeoschach/ansflow-frontend)
 - 后端仓库：[Ryeoschach/ansflow-backend](https://github.com/Ryeoschach/ansflow-backend)
-[GITEE]
-- 前端仓库：[Ryeoschach/ansflow-frontend](https://github.com/Ryeoschach/ansflow-frontend)
-- 后端仓库：[Ryeoschach/ansflow-backend](https://github.com/Ryeoschach/ansflow-backend)
+
+### Gitee 镜像仓库
+- 门户网站：[cyfee/ansflow-web](https://gitee.com/cyfee/ansflow-web)
+- 前端仓库：[cyfee/ansflow-frontend](https://gitee.com/cyfee/ansflow-frontend)
+- 后端仓库：[cyfee/ansflow-backend](https://gitee.com/cyfee/ansflow-backend)
 ## 开发命令
 
 ```bash
