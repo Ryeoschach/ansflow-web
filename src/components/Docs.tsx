@@ -591,6 +591,9 @@ vmalert \\
                 <p>
                   AnsFlow 不直接管理外部 Victoria 组件，也不自动下发 vmalert 规则。可以在 <strong>SRE → 诊断中心</strong> 配置 VictoriaMetrics / VictoriaLogs 数据源、服务标签映射，并使用规则模板生成 vmalert YAML 片段。
                 </p>
+                <p>
+                  诊断中心的数据源已按“数据类别 + 提供方”抽象：指标源当前推荐 VictoriaMetrics，日志源可从 VictoriaLogs 扩展到 Elasticsearch、Loki 或通用 HTTP 日志网关。日志源需要配置查询参数、字段映射和响应映射，诊断任务会在上下文采集摘要中标明日志、指标和 AnsFlow 内部事件是否采集成功。
+                </p>
                 <CodeBlock code={vmalertCode} lang="bash" />
                 <CodeBlock code={victoriaRuleCode} lang="yaml" />
                 <h3>Alertmanager 接入配置</h3>
@@ -1111,6 +1114,9 @@ vmalert \\
                 <CodeBlock code={victoriaChainCode} lang="text" />
                 <p>
                   AnsFlow does not directly manage external Victoria components or push vmalert rules. Configure VictoriaMetrics / VictoriaLogs data sources and service label mappings in <strong>SRE → Diagnosis Center</strong>, then use rule templates to render vmalert YAML snippets.
+                </p>
+                <p>
+                  Diagnosis Center now models data sources by data kind and provider: VictoriaMetrics remains the recommended metric source, while log providers can expand from VictoriaLogs to Elasticsearch, Loki, or a generic HTTP log gateway. Log sources can define query config, field mapping, and response mapping, and each diagnosis run records whether logs, metrics, and AnsFlow events were collected successfully.
                 </p>
                 <CodeBlock code={vmalertCode} lang="bash" />
                 <CodeBlock code={victoriaRuleCode} lang="yaml" />
