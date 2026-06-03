@@ -594,6 +594,9 @@ vmalert \\
                 <p>
                   诊断中心的数据源已按“数据类别 + 提供方”抽象：指标源当前推荐 VictoriaMetrics，日志源可从 VictoriaLogs 扩展到 Elasticsearch、Loki 或通用 HTTP 日志网关。日志源需要配置查询参数、字段映射和响应映射，诊断任务会在上下文采集摘要中标明日志、指标和 AnsFlow 内部事件是否采集成功。
                 </p>
+                <p>
+                  从告警详情发起时间点诊断时，系统会使用告警标签中的 <code>service</code>、<code>app</code>、<code>job</code>、<code>component</code>、<code>namespace</code> 等字段自动匹配服务映射。日志采集完成后会提取 error、exception、timeout、failed、OOM、5xx 等重点片段，优先作为 AI 诊断证据。
+                </p>
                 <CodeBlock code={vmalertCode} lang="bash" />
                 <CodeBlock code={victoriaRuleCode} lang="yaml" />
                 <h3>Alertmanager 接入配置</h3>
@@ -1117,6 +1120,9 @@ vmalert \\
                 </p>
                 <p>
                   Diagnosis Center now models data sources by data kind and provider: VictoriaMetrics remains the recommended metric source, while log providers can expand from VictoriaLogs to Elasticsearch, Loki, or a generic HTTP log gateway. Log sources can define query config, field mapping, and response mapping, and each diagnosis run records whether logs, metrics, and AnsFlow events were collected successfully.
+                </p>
+                <p>
+                  When starting a timepoint diagnosis from an alert, AnsFlow matches service mappings from labels such as <code>service</code>, <code>app</code>, <code>job</code>, <code>component</code>, and <code>namespace</code>. After log collection, it extracts important snippets containing error, exception, timeout, failed, OOM, or 5xx signals so the AI report starts from stronger evidence.
                 </p>
                 <CodeBlock code={vmalertCode} lang="bash" />
                 <CodeBlock code={victoriaRuleCode} lang="yaml" />
