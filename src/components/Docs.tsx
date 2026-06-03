@@ -597,6 +597,9 @@ vmalert \\
                 <p>
                   从告警详情发起时间点诊断时，系统会使用告警标签中的 <code>service</code>、<code>app</code>、<code>job</code>、<code>component</code>、<code>namespace</code> 等字段自动匹配服务映射。日志采集完成后会提取 error、exception、timeout、failed、OOM、5xx 等重点片段，优先作为 AI 诊断证据。
                 </p>
+                <p>
+                  时间点诊断报告会同时保存完整 Markdown 和结构化摘要。结构化摘要会按现象、影响范围、关键证据、可能根因、建议处置、风险提示和下一步验证分区展示，并通过 <code>LOG-1</code>、<code>METRIC-1</code>、<code>ALERT-1</code> 等证据 ID 关联日志、指标和 AnsFlow 内部事件。
+                </p>
                 <CodeBlock code={vmalertCode} lang="bash" />
                 <CodeBlock code={victoriaRuleCode} lang="yaml" />
                 <h3>Alertmanager 接入配置</h3>
@@ -1123,6 +1126,9 @@ vmalert \\
                 </p>
                 <p>
                   When starting a timepoint diagnosis from an alert, AnsFlow matches service mappings from labels such as <code>service</code>, <code>app</code>, <code>job</code>, <code>component</code>, and <code>namespace</code>. After log collection, it extracts important snippets containing error, exception, timeout, failed, OOM, or 5xx signals so the AI report starts from stronger evidence.
+                </p>
+                <p>
+                  Timepoint diagnosis stores both the full Markdown report and a structured summary. The structured view separates summary, impact scope, key evidence, possible causes, recommended actions, risks, and next checks, linking them to evidence IDs such as <code>LOG-1</code>, <code>METRIC-1</code>, and <code>ALERT-1</code>.
                 </p>
                 <CodeBlock code={vmalertCode} lang="bash" />
                 <CodeBlock code={victoriaRuleCode} lang="yaml" />
