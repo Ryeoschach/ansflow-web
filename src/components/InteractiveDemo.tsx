@@ -12,12 +12,15 @@ export const InteractiveDemo: React.FC = () => {
   const { t, language } = useApp();
   const [step, setStep] = useState<Step>('idle');
   const [logs, setLogs] = useState<LogLine[]>([]);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll terminal to bottom
+  // Auto scroll terminal container to bottom
   useEffect(() => {
-    if (terminalEndRef.current) {
-      terminalEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (logs.length > 0 && terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTo({
+        top: terminalBodyRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }, [logs]);
 
@@ -282,7 +285,7 @@ export const InteractiveDemo: React.FC = () => {
                   <span className="terminal-dot green"></span>
                   <span className="terminal-title">ansflow-self-healing-engine.sh</span>
                 </div>
-                <div className="terminal-body">
+                <div className="terminal-body" ref={terminalBodyRef}>
                   {logs.length === 0 ? (
                     <div className="terminal-placeholder">
                       $ _ <span className="cursor-blink">|</span>
@@ -302,7 +305,6 @@ export const InteractiveDemo: React.FC = () => {
                       </div>
                     </>
                   )}
-                  <div ref={terminalEndRef} />
                 </div>
               </div>
 
