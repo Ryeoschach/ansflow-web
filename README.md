@@ -37,6 +37,7 @@ pnpm build
 - Deployment and initialization guide
 - Platform usage guide
 - SRE observability datasource, service mapping, and query preview guide
+- SRE diagnosis templates and built-in CI/CD diagnosis flow
 - AI/RAG, permissions, security, and operations notes
 
 ## License
