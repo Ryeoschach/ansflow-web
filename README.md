@@ -36,6 +36,7 @@ pnpm build
 - Product overview and architecture
 - Deployment and initialization guide
 - Platform usage guide
+- SRE observability datasource, service mapping, and query preview guide
 - AI/RAG, permissions, security, and operations notes
 
 ## License

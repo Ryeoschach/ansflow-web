@@ -630,6 +630,15 @@ vmalert \\
                 <p>
                   阿里云 SLS 与腾讯云 CLS 第一版建议通过自建网关或代理接入，由网关负责云厂商签名，AnsFlow 使用 Bearer、Header 或 Query 参数访问网关。后续如果需要直连云 API，可在不修改诊断任务流程的前提下扩展专用签名适配器。
                 </p>
+                <h3>服务映射调试</h3>
+                <p>
+                  数据源配置完成后，进入 <strong>SRE → 诊断中心 → 服务映射</strong>，为服务选择指标数据源、日志数据源并填写标签选择器。保存后可直接点击 <strong>日志预览</strong> 或 <strong>指标预览</strong>，系统会使用当前服务映射实际查询外部数据源。
+                </p>
+                <p>
+                  预览结果会展示数据源、时间窗口、最终查询语句、命中数量、标准化后的日志或指标摘要，以及原始响应 JSON。建议先通过预览确认 <code>log_label_selector</code>、<code>metric_label_selector</code>、<code>field_mapping</code> 和 <code>response_mapping</code> 正确，再发起时间点诊断。
+                </p>
+                <CodeBlock code={`POST /api/v1/sre/observed-services/{id}/preview-logs/
+POST /api/v1/sre/observed-services/{id}/preview-metrics/`} lang="bash" />
                 <p>
                   从告警详情发起时间点诊断时，系统会使用告警标签中的 <code>service</code>、<code>app</code>、<code>job</code>、<code>component</code>、<code>namespace</code> 等字段自动匹配服务映射。日志采集完成后会提取 error、exception、timeout、failed、OOM、5xx 等重点片段，优先作为 AI 诊断证据。
                 </p>
@@ -1168,6 +1177,15 @@ vmalert \\
                 <p>
                   For Aliyun SLS and Tencent CLS, the first version recommends a gateway or proxy that performs cloud-provider request signing. AnsFlow then calls that gateway with Bearer, Header, or Query authentication. Direct cloud API signing can be added later as a dedicated adapter without changing the diagnosis task flow.
                 </p>
+                <h3>Service Mapping Debugging</h3>
+                <p>
+                  After configuring datasources, open <strong>SRE → Diagnosis Center → Service Mapping</strong>, choose metric and log datasources for a service, and fill in label selectors. After saving, click <strong>Preview Logs</strong> or <strong>Preview Metrics</strong> to query the external datasource using the current service mapping.
+                </p>
+                <p>
+                  The preview result shows datasource, time window, final query, matched count, normalized log or metric summaries, and raw response JSON. Use it to verify <code>log_label_selector</code>, <code>metric_label_selector</code>, <code>field_mapping</code>, and <code>response_mapping</code> before launching a timepoint diagnosis.
+                </p>
+                <CodeBlock code={`POST /api/v1/sre/observed-services/{id}/preview-logs/
+POST /api/v1/sre/observed-services/{id}/preview-metrics/`} lang="bash" />
                 <p>
                   When starting a timepoint diagnosis from an alert, AnsFlow matches service mappings from labels such as <code>service</code>, <code>app</code>, <code>job</code>, <code>component</code>, and <code>namespace</code>. After log collection, it extracts important snippets containing error, exception, timeout, failed, OOM, or 5xx signals so the AI report starts from stronger evidence.
                 </p>
