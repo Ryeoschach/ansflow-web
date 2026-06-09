@@ -78,6 +78,35 @@ SRE 诊断中心用于把告警、流水线、Ansible、日志、指标和审批
 - `structured_report`：AI 结构化报告。
 - `warnings`：降级、失败和格式化 warning。
 
+### AI 上下文预算
+
+`context_snapshot` 始终保存完整采集结果。发送给 AI 的 `diagnosis_context` 使用独立的预算化副本，不再对 JSON 字符串做尾部硬截断：
+
+- 默认字符预算为 24000，最终内容始终是完整、可解析的 JSON。
+- 日志高亮按异常分数优先保留，告警按严重度优先保留，统一证据按类型、严重度和分数排序。
+- 指标保留数据源、查询和少量结果样本；原始日志、Ansible 原始 TaskLog 和 `evidence_index.raw` 等重复大字段只保留在历史快照中。
+- 日志、指标、CI/CD、AnsFlow 事件和证据索引分别分配预算，避免单一数据源占满全部上下文。
+- 极端超限时继续降级为核心诊断标识和高优先级证据引用，不会产生半截 JSON。
+
+压缩统计保存在 `collection_summary.prompt_context`：
+
+```json
+{
+  "status": "success",
+  "compressed": true,
+  "truncated": true,
+  "budget_chars": 24000,
+  "original_chars": 48620,
+  "final_chars": 17840,
+  "removed_count": 96,
+  "removed": {
+    "raw_log_items": 50,
+    "evidence_raw_payloads": 30,
+    "log_highlights": 16
+  }
+}
+```
+
 ### 多日志源
 
 `log_contexts` 中每个元素代表一个日志源：
@@ -167,7 +196,7 @@ SRE 诊断中心用于把告警、流水线、Ansible、日志、指标和审批
 1. 基本信息：状态、模板、服务、时间、错误。
 2. 结构化报告：摘要、影响范围、证据、可能原因、建议动作、风险和下一步检查。
 3. AI Markdown 正文。
-4. 上下文采集摘要。
+4. 上下文采集摘要，包括 AI 上下文预算、压缩前后大小和分类裁剪统计。
 5. CI/CD 上下文：流水线、失败节点、节点日志、Ansible、审批记录。
 6. 指标源上下文：按指标数据源分组展示查询和结果数量。
 7. 日志源上下文：按日志数据源分组展示查询、命中高亮和证据编号。
