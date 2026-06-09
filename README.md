@@ -37,7 +37,7 @@ pnpm build
 - Deployment and initialization guide
 - Platform usage guide
 - SRE observability datasource, service mapping, query preview, and multi-source context guide
-- SRE diagnosis templates, CI/CD/Ansible diagnosis entry, evidence index, and diagnosis result guide
+- SRE diagnosis templates, CI/CD/Ansible entry, multi-source clustering, metric summaries, evidence, security, and task reliability
 - AI/RAG, permissions, security, and operations notes
 
 ## License
